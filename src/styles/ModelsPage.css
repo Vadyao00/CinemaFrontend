@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.create-actor-link, .create-movie-link, .create-genre-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.create-actor-link:hover, .create-movie-link:hover, .create-genre-link:hover {
+    text-decoration: underline;
+}
+
+.search-form {
+    margin-bottom: 16px;
+}
+
+.search-form label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.search-form input {
+    display: block;
+    margin-top: 4px;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.pagination {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination button:not(:disabled) {
+    background-color: #007bff;
+}
+
+.pagination span {
+    margin: 0 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Таблицы для актеров, фильмов и жанров */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd; /* Границы ячеек */
+    font-size: 14px;
+    color: #555;
+}
+
+th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    text-align: left;
+}
+
+td:last-child,
+th:last-child {
+    text-align: center;
+}
+
+.sort-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sort-button:hover {
+    text-decoration: underline;
+}
+
+.action-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+.action-link.delete {
+    color: #dc3545;
+}
+
+/* Стили для страницы актеров */
+.actors-page {
+    padding: 16px;
+}
+
+.actors-table th, .actors-table td {
+    text-align: left;
+}
+
+/* Стили для страницы фильмов */
+.movies-page {
+    padding: 16px;
+}
+
+.movies-table th, .movies-table td {
+    text-align: left;
+}
+
+/* Стили для страницы жанров */
+.genres-page {
+    padding: 16px;
+}
+
+.genres-table th, .genres-table td {
+    text-align: left;
+}
+
+.create-genre-container {
+    margin-bottom: 16px;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    margin: 0 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination button:not(:disabled) {
+    background-color: #007bff;
+}
+
+.pagination span {
+    margin: 0 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}

@@ -1,0 +1,82 @@
+div {
+    margin: 10px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Кнопка "Добавить" */
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  /* Стили для таблицы */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  table td {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  table .btn {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  table .btn:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  table .btn:last-child {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  table .btn:last-child:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
