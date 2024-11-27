@@ -1,39 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getEmployeeById, deleteEmployee } from '../services/employees';
+import { getShowtimeById, deleteShowtime } from '../../services/showtimes';
 
-function DeleteEmployeePage() {
+function DeleteShowtimePage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [employee, setEmployee] = useState(null);
+    const [showtime, setShowtime] = useState(null);
 
     useEffect(() => {
-        const loadEmployee = async () => {
+        const loadShowtime = async () => {
             try {
-                const data = await getEmployeeById(id);
-                setEmployee(data);
+                const data = await getShowtimeById(id);
+                setShowtime(data);
             } catch (error) {
-                console.error("Failed to fetch employee:", error);
+                console.error("Failed to fetch showtime:", error);
             }
         };
-        loadEmployee();
+        loadShowtime();
     }, [id]);
 
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            await deleteEmployee(id);
-            navigate('/employees');
+            await deleteShowtime(id);
+            navigate('/showtimes');
         } catch (error) {
-            console.error("Failed to delete employee:", error);
+            console.error("Failed to delete showtime:", error);
         }
     };
 
     const handleCancel = () => {
-        navigate('/employees');
+        navigate('/showtimes');
     };
 
-    if (!employee) {
+    if (!showtime) {
         return <p>Loading...</p>;
     }
 
@@ -42,13 +42,19 @@ function DeleteEmployeePage() {
             <h2>Удаление</h2>
             <h3>Вы уверены, что хотите удалить это?</h3>
             <div>
-                <h4>Сотрудник</h4>
+                <h4>Сеанс</h4>
                 <hr />
                 <dl style={{ marginBottom: '16px' }}>
-                    <dt>Имя</dt>
-                    <dd>{employee.name}</dd>
-                    <dt>Роль</dt>
-                    <dd>{employee.role}</dd>
+                    <dt>Дата</dt>
+                    <dd>{showtime.date}</dd>
+                    <dt>Время начала</dt>
+                    <dd>{showtime.startTime}</dd>
+                    <dt>Время окончания</dt>
+                    <dd>{showtime.endTime}</dd>
+                    <dt>Цена билета</dt>
+                    <dd>{showtime.ticketPrice}</dd>
+                    <dt>Фильм (Название)</dt>
+                    <dd>{showtime.movieTitle}</dd>
                 </dl>
                 <form onSubmit={handleDelete}>
                     <button
@@ -85,4 +91,4 @@ function DeleteEmployeePage() {
     );
 }
 
-export default DeleteEmployeePage;
+export default DeleteShowtimePage;

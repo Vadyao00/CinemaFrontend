@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getMovieById } from '../services/movies';
+import { getMovieById } from '../../services/movies';
 
 function MovieDetailPage() {
     const { id } = useParams();

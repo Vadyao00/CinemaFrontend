@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchGenres } from '../services/genres';
-import { createMovie } from '../services/movies';
-import '../styles/CreateMoviePage.css';
+import { fetchGenres } from '../../services/genres';
+import { createMovie } from '../../services/movies';
+import '../../styles/CreateMoviePage.css';
 
 function CreateMoviePage() {
     const [title, setTitle] = useState('');

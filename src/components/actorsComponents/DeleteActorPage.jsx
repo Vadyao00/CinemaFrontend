@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getActorById, deleteActor } from '../services/actors';
+import { getActorById, deleteActor } from '../../services/actors';
 
 function DeleteActor() {
     const { id } = useParams();

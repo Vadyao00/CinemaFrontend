@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getGenreById } from '../services/genres';
+import { getEventById } from '../../services/events';
 
-function GenreDetailPage() {
+function EventDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [genre, setGenre] = useState(null);
+    const [event, setEvent] = useState(null);
 
     useEffect(() => {
-        const loadGenre = async () => {
+        const loadEvent = async () => {
             try {
-                const data = await getGenreById(id);
-                setGenre(data);
+                const data = await getEventById(id);
+                setEvent(data);
             } catch (error) {
-                console.error('Failed to fetch genre:', error);
+                console.error('Failed to fetch event:', error);
             }
         };
-        loadGenre();
+        loadEvent();
     }, [id]);
 
-    if (!genre) {
+    if (!event) {
         return <p>Loading...</p>;
     }
 
@@ -27,20 +27,26 @@ function GenreDetailPage() {
         <div style={{ padding: '16px' }}>
             <h2>Детально</h2>
             <div>
-                <h4>Жанр</h4>
+                <h4>Событие</h4>
                 <hr />
                 <dl style={{ lineHeight: '1.8em' }}>
                     <dt style={{ fontWeight: 'bold' }}>Номер(Id)</dt>
-                    <dd>{genre.genreId}</dd>
+                    <dd>{event.eventId}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Название</dt>
-                    <dd>{genre.name}</dd>
-                    <dt style={{ fontWeight: 'bold' }}>Описание</dt>
-                    <dd>{genre.description}</dd>
+                    <dd>{event.name}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Дата</dt>
+                    <dd>{event.date}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Время начала</dt>
+                    <dd>{event.startTime}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Время окончания</dt>
+                    <dd>{event.endTime}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Цена билета</dt>
+                    <dd>{event.ticketPrice}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>
                 <button
-                    onClick={() => navigate('/genres')}
+                    onClick={() => navigate('/events')}
                     style={{
                         padding: '8px 16px',
                         background: '#ccc',
@@ -56,4 +62,4 @@ function GenreDetailPage() {
     );
 }
 
-export default GenreDetailPage;
+export default EventDetailPage;

@@ -1,77 +1,92 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createActor } from '../services/actors';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getActorById, updateActor } from '../../services/actors';
 
-function CreateActor() {
+function EditActor() {
+    const { id } = useParams();
     const navigate = useNavigate();
-    const [actor, setActor] = useState({
-        name: '',
-    });
+    const [actor, setActor] = useState({ name: '', actorId: '' });
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const loadActor = async () => {
+            try {
+                const data = await getActorById(id);
+                setActor(data);
+            } catch (error) {
+                console.error('Failed to fetch actor:', error);
+            }
+        };
+        loadActor();
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setActor({
-            ...actor,
+        setActor((prevActor) => ({
+            ...prevActor,
             [name]: value,
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createActor(actor); 
+            await updateActor(actor.actorId, actor);
             navigate('/actors');
         } catch (error) {
-            console.error('Failed to create actor:', error);
-            setErrors({ submit: 'Ошибка при создании актера. Попробуйте снова.' });
+            console.error('Failed to update actor:', error);
+            setErrors({ name: 'Failed to save changes. Please try again.' });
         }
+    };
+
+    const handleCancel = () => {
+        navigate('/actors');
     };
 
     return (
         <div style={{ padding: '16px' }}>
-            <h2>Создать</h2>
+            <h2>Редактировать</h2>
             <h4>Актер</h4>
             <hr />
-            <div style={{ maxWidth: '400px', margin: 'auto' }}>
+            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
                 <form onSubmit={handleSubmit}>
-                    {errors.submit && (
-                        <div style={{ color: 'red', marginBottom: '16px' }}>{errors.submit}</div>
-                    )}
                     <div style={{ marginBottom: '16px' }}>
-                        <label htmlFor="name" style={{ display: 'block', fontWeight: 'bold' }}>
+                        <label htmlFor="name" style={{ display: 'block', marginBottom: '8px' }}>
                             Имя
                         </label>
                         <input
-                            type="text"
                             id="name"
                             name="name"
+                            type="text"
                             value={actor.name}
                             onChange={handleChange}
                             className="form-control"
-                            style={{ width: '100%' }}
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                            }}
                         />
-                        {errors.name && (
-                            <span style={{ color: 'red' }}>{errors.name}</span>
-                        )}
+                        {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
                     </div>
-                    <div style={{ marginTop: '16px' }}>
+                    <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                             type="submit"
                             style={{
                                 padding: '8px 16px',
-                                marginRight: '8px',
                                 background: 'blue',
                                 color: 'white',
                                 border: 'none',
                                 cursor: 'pointer',
                             }}
                         >
-                            Создать
+                            Сохранить
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigate('/actors')}
+                            onClick={handleCancel}
                             style={{
                                 padding: '8px 16px',
                                 background: '#ccc',
@@ -89,4 +104,4 @@ function CreateActor() {
     );
 }
 
-export default CreateActor;
+export default EditActor;

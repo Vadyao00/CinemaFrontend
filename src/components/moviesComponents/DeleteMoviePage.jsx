@@ -1,54 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getGenreById, deleteGenre } from '../services/genres';
+import { getMovieById, deleteMovie } from '../../services/movies';
 
-function DeleteGenrePage() {
+function DeleteMoviePage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [genre, setGenre] = useState(null);
+    const [movie, setMovie] = useState(null);
 
     useEffect(() => {
-        const loadGenre = async () => {
+        const loadMovie = async () => {
             try {
-                const data = await getGenreById(id);
-                setGenre(data);
+                const data = await getMovieById(id);
+                setMovie(data);
             } catch (error) {
-                console.error("Failed to fetch genre:", error);
+                console.error("Failed to fetch movie:", error);
             }
         };
-        loadGenre();
+        loadMovie();
     }, [id]);
 
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            await deleteGenre(id);
-            navigate('/genres');
+            await deleteMovie(id);
+            navigate('/movies');
         } catch (error) {
-            console.error("Failed to delete genre:", error);
+            console.error("Failed to delete movie:", error);
         }
     };
 
     const handleCancel = () => {
-        navigate('/genres');
+        navigate('/movies');
     };
 
-    if (!genre) {
-        return <p>Loading...</p>;
+    if (!movie) {
+        return <p>Загрузка...</p>;
     }
 
     return (
         <div style={{ padding: '16px' }}>
-            <h2>Удаление</h2>
-            <h3>Вы уверены, что хотите удалить это?</h3>
+            <h2>Удаление фильма</h2>
+            <h3>Вы уверены, что хотите удалить этот фильм?</h3>
             <div>
-                <h4>Жанр</h4>
+                <h4>Фильм</h4>
                 <hr />
                 <dl style={{ marginBottom: '16px' }}>
                     <dt>Название</dt>
-                    <dd>{genre.name}</dd>
+                    <dd>{movie.title}</dd>
+                    <dt>Жанр</dt>
+                    <dd>{movie.genreName}</dd>
+                    <dt>Продолжительность</dt>
+                    <dd>{movie.duration}</dd>
+                    <dt>Компания</dt>
+                    <dd>{movie.productionCompany}</dd>
+                    <dt>Страна</dt>
+                    <dd>{movie.country}</dd>
+                    <dt>Возрастное ограничение</dt>
+                    <dd>{movie.ageRestriction}</dd>
                     <dt>Описание</dt>
-                    <dd>{genre.description}</dd>
+                    <dd>{movie.description}</dd>
                 </dl>
                 <form onSubmit={handleDelete}>
                     <button
@@ -85,4 +95,4 @@ function DeleteGenrePage() {
     );
 }
 
-export default DeleteGenrePage;
+export default DeleteMoviePage;

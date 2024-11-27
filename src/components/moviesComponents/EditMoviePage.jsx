@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { data, useNavigate, useParams } from 'react-router-dom';
-import { getMovieById, updateMovie } from '../services/movies';
-import { fetchGenres } from '../services/genres';
+import { getMovieById, updateMovie } from '../../services/movies';
+import { fetchGenres } from '../../services/genres';
 
 function EditMoviePage() {
     const { id } = useParams();

@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchActors } from '../services/actors';
-import '../styles/ModelsPage.css';
+import { fetchShowtimes } from '../../services/showtimes';
+import '../../styles/ModelsPage.css';
 
-function ActorsPage() {
-    const [actors, setActors] = useState([]);
+function ShowtimesPage() {
+    const [showtimes, setShowtimes] = useState([]);
     const [metaData, setMetaData] = useState();
-    const [searchName, setSearchName] = useState('');
-    const [orderBy, setOrderBy] = useState('Name');
+    const [searchTitle, setSearchTitle] = useState('');
+    const [orderBy, setOrderBy] = useState('Date');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        loadActors();
+        loadShowtimes();
         checkUserRole();
-    }, [searchName, orderBy, pageNumber, pageSize]);
+    }, [searchTitle, orderBy, pageNumber, pageSize]);
 
-    const loadActors = async () => {
-        const { data, metaData } = await fetchActors({
-            SearchName: searchName,
+    const loadShowtimes = async () => {
+        const { data, metaData } = await fetchShowtimes({
+            SearchTitle: searchTitle,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
         });
-        setActors(data);
+        setShowtimes(data);
         setMetaData(metaData);
     };
 
@@ -53,59 +53,79 @@ function ActorsPage() {
     };
 
     return (
-        <div className="actors-page">
-            <h2>Actors</h2>
+        <div className="showtimes-page">
+            <h2>Showtimes</h2>
 
-            <div className="create-actor-container">
+            <div className="create-showtime-container">
                 {isAdmin && (
-                    <Link to="/actors/create" className="create-actor-link">
-                        Create new Actor
+                    <Link to="/showtimes/create" className="create-showtime-link">
+                        Create new Showtime
                     </Link>
                 )}
             </div>
 
             <form onChange={handleSearch} className="search-form">
                 <div>
-                    <label htmlFor="searchName">Search by Name:</label>
+                    <label htmlFor="searchTitle">Search by Movie Title:</label>
                     <input
-                        id="searchName"
+                        id="searchTitle"
                         type="text"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter actor name"
+                        value={searchTitle}
+                        onChange={(e) => setSearchTitle(e.target.value)}
+                        placeholder="Enter movie title"
                     />
                 </div>
             </form>
 
-            <table className="actors-table">
+            <table className="showtimes-table">
                 <thead>
                     <tr>
                         <th>
-                            <button onClick={() => handleSort('Name')} className="sort-button">
-                                Name
+                            <button onClick={() => handleSort('Date')} className="sort-button">
+                                Date
                             </button>
                         </th>
+                        <th>
+                            <button onClick={() => handleSort('StartTime')} className="sort-button">
+                                Start Time
+                            </button>
+                        </th>
+                        <th>
+                            <button onClick={() => handleSort('EndTime')} className="sort-button">
+                                End Time
+                            </button>
+                        </th>
+                        <th>
+                            <button onClick={() => handleSort('TicketPrice')} className="sort-button">
+                                Ticket Price
+                            </button>
+                        </th>
+                        <th>Movie Title</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {actors.map((actor) => (
-                        <tr key={actor.actorId}>
-                            <td>{actor.name}</td>
+                    {showtimes.map((showtime) => (
+                        <tr key={showtime.showtimeId}>
+                            <td>{showtime.date}</td>
+                            <td>{showtime.startTime}</td>
+                            <td>{showtime.endTime}</td>
+                            <td>{showtime.ticketPrice}</td>
+                            <td>{showtime.movieTitle || 'N/A'}</td>
                             <td>
-                                <Link to={`/actors/detail/${actor.actorId}`} className="action-link">
+                                <Link to={`/showtimes/detail/${showtime.showtimeId}`} className="action-link">
                                     Details
                                 </Link>
                                 {isAdmin && (
                                     <>
                                         <Link
-                                            to={`/actors/update/${actor.actorId}`}
+                                            to={`/showtimes/update/${showtime.showtimeId}`}
                                             className="action-link"
                                         >
                                             Edit
                                         </Link>
                                         <Link
-                                            to={`/actors/delete/${actor.actorId}`}
+                                            to={`/showtimes/delete/${showtime.showtimeId}`}
                                             className="action-link delete"
                                         >
                                             Delete
@@ -141,4 +161,4 @@ function ActorsPage() {
     );
 }
 
-export default ActorsPage;
+export default ShowtimesPage;

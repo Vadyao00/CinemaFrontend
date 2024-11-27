@@ -1,81 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getGenreById, updateGenre } from '../services/genres';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createGenre } from '../../services/genres';
 
-function EditGenrePage() {
-    const { id } = useParams();
+function CreateGenrePage() {
     const navigate = useNavigate();
-    const [genre, setGenre] = useState({ name: '', description: '', genreId: '' });
+    const [genre, setGenre] = useState({
+        name: '',
+        description: '',
+    });
     const [errors, setErrors] = useState({});
-
-    useEffect(() => {
-        const loadGenre = async () => {
-            try {
-                const data = await getGenreById(id);
-                setGenre(data);
-            } catch (error) {
-                console.error('Failed to fetch genre:', error);
-            }
-        };
-        loadGenre();
-    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setGenre((prevGenre) => ({
-            ...prevGenre,
+        setGenre({
+            ...genre,
             [name]: value,
-        }));
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateGenre(genre.genreId, genre);
+            await createGenre(genre); 
             navigate('/genres');
         } catch (error) {
-            console.error('Failed to update genre:', error);
-            setErrors({ submit: 'Ошибка при сохранении изменений. Попробуйте снова.' });
+            console.error('Failed to create genre:', error);
+            setErrors({ submit: 'Ошибка при создании жанра. Попробуйте снова.' });
         }
-    };
-
-    const handleCancel = () => {
-        navigate('/genres');
     };
 
     return (
         <div style={{ padding: '16px' }}>
-            <h2>Редактировать</h2>
+            <h2>Создать</h2>
             <h4>Жанр</h4>
             <hr />
-            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+            <div style={{ maxWidth: '400px', margin: 'auto' }}>
                 <form onSubmit={handleSubmit}>
                     {errors.submit && (
                         <div style={{ color: 'red', marginBottom: '16px' }}>{errors.submit}</div>
                     )}
                     <div style={{ marginBottom: '16px' }}>
-                        <label htmlFor="name" style={{ display: 'block', marginBottom: '8px' }}>
+                        <label htmlFor="name" style={{ display: 'block', fontWeight: 'bold' }}>
                             Название
                         </label>
                         <input
+                            type="text"
                             id="name"
                             name="name"
-                            type="text"
                             value={genre.name}
                             onChange={handleChange}
                             className="form-control"
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                boxSizing: 'border-box',
-                                borderRadius: '4px',
-                                border: '1px solid #ccc',
-                            }}
+                            style={{ width: '100%' }}
                         />
-                        {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
+                        {errors.name && (
+                            <span style={{ color: 'red' }}>{errors.name}</span>
+                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
-                        <label htmlFor="description" style={{ display: 'block', marginBottom: '8px' }}>
+                        <label htmlFor="description" style={{ display: 'block', fontWeight: 'bold' }}>
                             Описание
                         </label>
                         <textarea
@@ -85,34 +67,29 @@ function EditGenrePage() {
                             onChange={handleChange}
                             className="form-control"
                             rows="4"
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                boxSizing: 'border-box',
-                                borderRadius: '4px',
-                                border: '1px solid #ccc',
-                            }}
+                            style={{ width: '100%' }}
                         />
                         {errors.description && (
                             <span style={{ color: 'red' }}>{errors.description}</span>
                         )}
                     </div>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ marginTop: '16px' }}>
                         <button
                             type="submit"
                             style={{
                                 padding: '8px 16px',
+                                marginRight: '8px',
                                 background: 'blue',
                                 color: 'white',
                                 border: 'none',
                                 cursor: 'pointer',
                             }}
                         >
-                            Сохранить
+                            Создать
                         </button>
                         <button
                             type="button"
-                            onClick={handleCancel}
+                            onClick={() => navigate('/genres')}
                             style={{
                                 padding: '8px 16px',
                                 background: '#ccc',
@@ -130,4 +107,4 @@ function EditGenrePage() {
     );
 }
 
-export default EditGenrePage;
+export default CreateGenrePage;

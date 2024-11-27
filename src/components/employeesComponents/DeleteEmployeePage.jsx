@@ -1,64 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getMovieById, deleteMovie } from '../services/movies';
+import { getEmployeeById, deleteEmployee } from '../../services/employees';
 
-function DeleteMoviePage() {
+function DeleteEmployeePage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [movie, setMovie] = useState(null);
+    const [employee, setEmployee] = useState(null);
 
     useEffect(() => {
-        const loadMovie = async () => {
+        const loadEmployee = async () => {
             try {
-                const data = await getMovieById(id);
-                setMovie(data);
+                const data = await getEmployeeById(id);
+                setEmployee(data);
             } catch (error) {
-                console.error("Failed to fetch movie:", error);
+                console.error("Failed to fetch employee:", error);
             }
         };
-        loadMovie();
+        loadEmployee();
     }, [id]);
 
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            await deleteMovie(id);
-            navigate('/movies');
+            await deleteEmployee(id);
+            navigate('/employees');
         } catch (error) {
-            console.error("Failed to delete movie:", error);
+            console.error("Failed to delete employee:", error);
         }
     };
 
     const handleCancel = () => {
-        navigate('/movies');
+        navigate('/employees');
     };
 
-    if (!movie) {
-        return <p>Загрузка...</p>;
+    if (!employee) {
+        return <p>Loading...</p>;
     }
 
     return (
         <div style={{ padding: '16px' }}>
-            <h2>Удаление фильма</h2>
-            <h3>Вы уверены, что хотите удалить этот фильм?</h3>
+            <h2>Удаление</h2>
+            <h3>Вы уверены, что хотите удалить это?</h3>
             <div>
-                <h4>Фильм</h4>
+                <h4>Сотрудник</h4>
                 <hr />
                 <dl style={{ marginBottom: '16px' }}>
-                    <dt>Название</dt>
-                    <dd>{movie.title}</dd>
-                    <dt>Жанр</dt>
-                    <dd>{movie.genreName}</dd>
-                    <dt>Продолжительность</dt>
-                    <dd>{movie.duration}</dd>
-                    <dt>Компания</dt>
-                    <dd>{movie.productionCompany}</dd>
-                    <dt>Страна</dt>
-                    <dd>{movie.country}</dd>
-                    <dt>Возрастное ограничение</dt>
-                    <dd>{movie.ageRestriction}</dd>
-                    <dt>Описание</dt>
-                    <dd>{movie.description}</dd>
+                    <dt>Имя</dt>
+                    <dd>{employee.name}</dd>
+                    <dt>Роль</dt>
+                    <dd>{employee.role}</dd>
                 </dl>
                 <form onSubmit={handleDelete}>
                     <button
@@ -95,4 +85,4 @@ function DeleteMoviePage() {
     );
 }
 
-export default DeleteMoviePage;
+export default DeleteEmployeePage;

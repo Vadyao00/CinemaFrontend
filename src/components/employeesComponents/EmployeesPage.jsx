@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchGenres } from '../services/genres';
-import '../styles/ModelsPage.css';
+import { fetchEmployees } from '../../services/employees';
+import '../../styles/ModelsPage.css';
 
-function GenresPage() {
-    const [genres, setGenres] = useState([]);
+function EmployeesPage() {
+    const [employees, setEmployees] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchName, setSearchName] = useState('');
     const [orderBy, setOrderBy] = useState('Name');
@@ -13,18 +13,18 @@ function GenresPage() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        loadGenres();
+        loadEmployees();
         checkUserRole();
     }, [searchName, orderBy, pageNumber, pageSize]);
 
-    const loadGenres = async () => {
-        const { data, metaData } = await fetchGenres({
+    const loadEmployees = async () => {
+        const { data, metaData } = await fetchEmployees({
             SearchName: searchName,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
         });
-        setGenres(data);
+        setEmployees(data);
         setMetaData(metaData);
     };
 
@@ -53,13 +53,13 @@ function GenresPage() {
     };
 
     return (
-        <div className="actors-page">
-            <h2>Genres</h2>
+        <div className="employees-page">
+            <h2>Employees</h2>
 
-            <div className="create-actor-container">
+            <div className="create-employee-container">
                 {isAdmin && (
-                    <Link to="/genres/create" className="create-actor-link">
-                        Create new Genre
+                    <Link to="/employees/create" className="create-employee-link">
+                        Create new Employee
                     </Link>
                 )}
             </div>
@@ -72,12 +72,12 @@ function GenresPage() {
                         type="text"
                         value={searchName}
                         onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter genre name"
+                        placeholder="Enter employee name"
                     />
                 </div>
             </form>
 
-            <table className="actors-table">
+            <table className="employees-table">
                 <thead>
                     <tr>
                         <th>
@@ -85,29 +85,36 @@ function GenresPage() {
                                 Name
                             </button>
                         </th>
-                        <th>Description</th>
+                        <th>
+                            <button onClick={() => handleSort('Role')} className="sort-button">
+                                Role
+                            </button>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {genres.map((genre) => (
-                        <tr key={genre.genreId}>
-                            <td>{genre.name}</td>
-                            <td>{genre.description}</td>
+                    {employees.map((employee) => (
+                        <tr key={employee.employeeId}>
+                            <td>{employee.name}</td>
+                            <td>{employee.role}</td>
                             <td>
-                                <Link to={`/genres/detail/${genre.genreId}`} className="action-link">
+                                <Link
+                                    to={`/employees/detail/${employee.employeeId}`}
+                                    className="action-link"
+                                >
                                     Details
                                 </Link>
                                 {isAdmin && (
                                     <>
                                         <Link
-                                            to={`/genres/update/${genre.genreId}`}
+                                            to={`/employees/update/${employee.employeeId}`}
                                             className="action-link"
                                         >
                                             Edit
                                         </Link>
                                         <Link
-                                            to={`/genres/delete/${genre.genreId}`}
+                                            to={`/employees/delete/${employee.employeeId}`}
                                             className="action-link delete"
                                         >
                                             Delete
@@ -143,4 +150,4 @@ function GenresPage() {
     );
 }
 
-export default GenresPage;
+export default EmployeesPage;

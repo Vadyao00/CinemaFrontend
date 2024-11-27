@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import '../Styles/UsersList.css';
+import '../styles/UsersList.css';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);

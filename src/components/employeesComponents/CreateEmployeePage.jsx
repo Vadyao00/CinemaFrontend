@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createGenre } from '../services/genres';
+import { createEmployee } from '../../services/employees';
 
-function CreateGenrePage() {
+function CreateEmployeePage() {
     const navigate = useNavigate();
-    const [genre, setGenre] = useState({
+    const [employee, setEmployee] = useState({
         name: '',
-        description: '',
+        role: '',
     });
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setGenre({
-            ...genre,
+        setEmployee({
+            ...employee,
             [name]: value,
         });
     };
@@ -21,18 +21,18 @@ function CreateGenrePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createGenre(genre); 
-            navigate('/genres');
+            await createEmployee(employee); 
+            navigate('/employees');
         } catch (error) {
-            console.error('Failed to create genre:', error);
-            setErrors({ submit: 'Ошибка при создании жанра. Попробуйте снова.' });
+            console.error('Failed to create employee:', error);
+            setErrors({ submit: 'Ошибка при создании сотрудника. Попробуйте снова.' });
         }
     };
 
     return (
         <div style={{ padding: '16px' }}>
             <h2>Создать</h2>
-            <h4>Жанр</h4>
+            <h4>Сотрудник</h4>
             <hr />
             <div style={{ maxWidth: '400px', margin: 'auto' }}>
                 <form onSubmit={handleSubmit}>
@@ -41,13 +41,13 @@ function CreateGenrePage() {
                     )}
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="name" style={{ display: 'block', fontWeight: 'bold' }}>
-                            Название
+                            Имя
                         </label>
                         <input
                             type="text"
                             id="name"
                             name="name"
-                            value={genre.name}
+                            value={employee.name}
                             onChange={handleChange}
                             className="form-control"
                             style={{ width: '100%' }}
@@ -57,20 +57,20 @@ function CreateGenrePage() {
                         )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
-                        <label htmlFor="description" style={{ display: 'block', fontWeight: 'bold' }}>
-                            Описание
+                        <label htmlFor="role" style={{ display: 'block', fontWeight: 'bold' }}>
+                            Роль
                         </label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={genre.description}
+                        <input
+                            type="text"
+                            id="role"
+                            name="role"
+                            value={employee.role}
                             onChange={handleChange}
                             className="form-control"
-                            rows="4"
                             style={{ width: '100%' }}
                         />
-                        {errors.description && (
-                            <span style={{ color: 'red' }}>{errors.description}</span>
+                        {errors.role && (
+                            <span style={{ color: 'red' }}>{errors.role}</span>
                         )}
                     </div>
                     <div style={{ marginTop: '16px' }}>
@@ -89,7 +89,7 @@ function CreateGenrePage() {
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigate('/genres')}
+                            onClick={() => navigate('/employees')}
                             style={{
                                 padding: '8px 16px',
                                 background: '#ccc',
@@ -107,4 +107,4 @@ function CreateGenrePage() {
     );
 }
 
-export default CreateGenrePage;
+export default CreateEmployeePage;

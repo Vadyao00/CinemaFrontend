@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getEmployeeById } from '../services/employees';
+import { getGenreById } from '../../services/genres';
 
-function EmployeeDetailPage() {
+function GenreDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [employee, setEmployee] = useState(null);
+    const [genre, setGenre] = useState(null);
 
     useEffect(() => {
-        const loadEmployee = async () => {
+        const loadGenre = async () => {
             try {
-                const data = await getEmployeeById(id);
-                setEmployee(data);
+                const data = await getGenreById(id);
+                setGenre(data);
             } catch (error) {
-                console.error('Failed to fetch employee:', error);
+                console.error('Failed to fetch genre:', error);
             }
         };
-        loadEmployee();
+        loadGenre();
     }, [id]);
 
-    if (!employee) {
+    if (!genre) {
         return <p>Loading...</p>;
     }
 
@@ -27,20 +27,20 @@ function EmployeeDetailPage() {
         <div style={{ padding: '16px' }}>
             <h2>Детально</h2>
             <div>
-                <h4>Сотрудник</h4>
+                <h4>Жанр</h4>
                 <hr />
                 <dl style={{ lineHeight: '1.8em' }}>
-                    <dt style={{ fontWeight: 'bold' }}>Номер (Id)</dt>
-                    <dd>{employee.employeeId}</dd>
-                    <dt style={{ fontWeight: 'bold' }}>Имя</dt>
-                    <dd>{employee.name}</dd>
-                    <dt style={{ fontWeight: 'bold' }}>Роль</dt>
-                    <dd>{employee.role}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Номер(Id)</dt>
+                    <dd>{genre.genreId}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Название</dt>
+                    <dd>{genre.name}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Описание</dt>
+                    <dd>{genre.description}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>
                 <button
-                    onClick={() => navigate('/employees')}
+                    onClick={() => navigate('/genres')}
                     style={{
                         padding: '8px 16px',
                         background: '#ccc',
@@ -56,4 +56,4 @@ function EmployeeDetailPage() {
     );
 }
 
-export default EmployeeDetailPage;
+export default GenreDetailPage;

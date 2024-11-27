@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getEmployeeById, updateEmployee } from '../services/employees';
+import { getGenreById, updateGenre } from '../../services/genres';
 
-function EditEmployeePage() {
+function EditGenrePage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [employee, setEmployee] = useState({ name: '', role: '', employeeId: '' });
+    const [genre, setGenre] = useState({ name: '', description: '', genreId: '' });
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        const loadEmployee = async () => {
+        const loadGenre = async () => {
             try {
-                const data = await getEmployeeById(id);
-                setEmployee(data);
+                const data = await getGenreById(id);
+                setGenre(data);
             } catch (error) {
-                console.error('Failed to fetch employee:', error);
+                console.error('Failed to fetch genre:', error);
             }
         };
-        loadEmployee();
+        loadGenre();
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEmployee((prevEmployee) => ({
-            ...prevEmployee,
+        setGenre((prevGenre) => ({
+            ...prevGenre,
             [name]: value,
         }));
     };
@@ -31,22 +31,22 @@ function EditEmployeePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateEmployee(employee.employeeId, employee);
-            navigate('/employees');
+            await updateGenre(genre.genreId, genre);
+            navigate('/genres');
         } catch (error) {
-            console.error('Failed to update employee:', error);
+            console.error('Failed to update genre:', error);
             setErrors({ submit: 'Ошибка при сохранении изменений. Попробуйте снова.' });
         }
     };
 
     const handleCancel = () => {
-        navigate('/employees');
+        navigate('/genres');
     };
 
     return (
         <div style={{ padding: '16px' }}>
             <h2>Редактировать</h2>
-            <h4>Сотрудник</h4>
+            <h4>Жанр</h4>
             <hr />
             <div style={{ maxWidth: '400px', margin: '0 auto' }}>
                 <form onSubmit={handleSubmit}>
@@ -55,13 +55,13 @@ function EditEmployeePage() {
                     )}
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="name" style={{ display: 'block', marginBottom: '8px' }}>
-                            Имя
+                            Название
                         </label>
                         <input
                             id="name"
                             name="name"
                             type="text"
-                            value={employee.name}
+                            value={genre.name}
                             onChange={handleChange}
                             className="form-control"
                             style={{
@@ -75,16 +75,16 @@ function EditEmployeePage() {
                         {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
-                        <label htmlFor="role" style={{ display: 'block', marginBottom: '8px' }}>
-                            Роль
+                        <label htmlFor="description" style={{ display: 'block', marginBottom: '8px' }}>
+                            Описание
                         </label>
-                        <input
-                            id="role"
-                            name="role"
-                            type="text"
-                            value={employee.role}
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={genre.description}
                             onChange={handleChange}
                             className="form-control"
+                            rows="4"
                             style={{
                                 width: '100%',
                                 padding: '8px',
@@ -93,7 +93,9 @@ function EditEmployeePage() {
                                 border: '1px solid #ccc',
                             }}
                         />
-                        {errors.role && <span style={{ color: 'red' }}>{errors.role}</span>}
+                        {errors.description && (
+                            <span style={{ color: 'red' }}>{errors.description}</span>
+                        )}
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button
@@ -128,4 +130,4 @@ function EditEmployeePage() {
     );
 }
 
-export default EditEmployeePage;
+export default EditGenrePage;

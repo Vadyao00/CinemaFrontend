@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchMovies } from '../services/movies';
-import '../styles/ModelsPage.css';
+import { fetchEvents } from '../../services/events';
+import '../../styles/ModelsPage.css';
 
-function MoviesPage() {
-    const [movies, setMovies] = useState([]);
+function EventsPage() {
+    const [events, setEvents] = useState([]);
     const [metaData, setMetaData] = useState();
-    const [searchTitle, setSearchTitle] = useState('');
-    const [orderBy, setOrderBy] = useState('Title');
+    const [searchName, setSearchName] = useState('');
+    const [orderBy, setOrderBy] = useState('Name');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        loadMovies();
+        loadEvents();
         checkUserRole();
-    }, [searchTitle, orderBy, pageNumber, pageSize]);
+    }, [searchName, orderBy, pageNumber, pageSize]);
 
-    const loadMovies = async () => {
-        const { data, metaData } = await fetchMovies({
-            SearchTitle: searchTitle,
+    const loadEvents = async () => {
+        const { data, metaData } = await fetchEvents({
+            SearchName: searchName,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
         });
-        setMovies(data);
+        setEvents(data);
         setMetaData(metaData);
     };
 
@@ -53,71 +53,67 @@ function MoviesPage() {
     };
 
     return (
-        <div className="movies-page">
-            <h2>Movies</h2>
+        <div className="events-page">
+            <h2>Events</h2>
 
-            <div className="create-movie-container">
+            <div className="create-event-container">
                 {isAdmin && (
-                    <Link to="/movies/create" className="create-movie-link">
-                        Create new Movie
+                    <Link to="/events/create" className="create-event-link">
+                        Create new Event
                     </Link>
                 )}
             </div>
 
             <form onChange={handleSearch} className="search-form">
                 <div>
-                    <label htmlFor="searchTitle">Search by Title:</label>
+                    <label htmlFor="searchName">Search by Name:</label>
                     <input
-                        id="searchTitle"
+                        id="searchName"
                         type="text"
-                        value={searchTitle}
-                        onChange={(e) => setSearchTitle(e.target.value)}
-                        placeholder="Enter movie title"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                        placeholder="Enter event name"
                     />
                 </div>
             </form>
 
-            <table className="movies-table">
+            <table className="events-table">
                 <thead>
                     <tr>
                         <th>
-                            <button onClick={() => handleSort('Title')} className="sort-button">
-                                Title
+                            <button onClick={() => handleSort('Name')} className="sort-button">
+                                Name
                             </button>
                         </th>
-                        <th>Genre</th>
-                        <th>Duration</th>
-                        <th>Production Company</th>
-                        <th>Country</th>
-                        <th>Age Restriction</th>
-                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Ticket Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {movies.map((movie) => (
-                        <tr key={movie.movieId}>
-                            <td>{movie.title}</td>
-                            <td>{movie.genreName}</td>
-                            <td>{movie.duration}</td>
-                            <td>{movie.productionCompany || 'N/A'}</td>
-                            <td>{movie.country || 'N/A'}</td>
-                            <td>{movie.ageRestriction || 'N/A'}</td>
-                            <td>{movie.description || 'No description available'}</td>
+                    {events.map((event) => (
+                        <tr key={event.eventId}>
+                            <td>{event.name}</td>
+                            <td>{event.date}</td>
+                            <td>{event.startTime}</td>
+                            <td>{event.endTime}</td>
+                            <td>${event.ticketPrice.toFixed(2)}</td>
                             <td>
-                                <Link to={`/movies/detail/${movie.movieId}`} className="action-link">
+                                <Link to={`/events/detail/${event.eventId}`} className="action-link">
                                     Details
                                 </Link>
                                 {isAdmin && (
                                     <>
                                         <Link
-                                            to={`/movies/update/${movie.movieId}`}
+                                            to={`/events/update/${event.eventId}`}
                                             className="action-link"
                                         >
                                             Edit
                                         </Link>
                                         <Link
-                                            to={`/movies/delete/${movie.movieId}`}
+                                            to={`/events/delete/${event.eventId}`}
                                             className="action-link delete"
                                         >
                                             Delete
@@ -153,4 +149,4 @@ function MoviesPage() {
     );
 }
 
-export default MoviesPage;
+export default EventsPage;

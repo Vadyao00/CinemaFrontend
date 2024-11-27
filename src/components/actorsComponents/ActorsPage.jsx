@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchEmployees } from '../services/employees';
-import '../styles/ModelsPage.css';
+import { fetchActors } from '../../services/actors';
+import '../../styles/ModelsPage.css';
 
-function EmployeesPage() {
-    const [employees, setEmployees] = useState([]);
+function ActorsPage() {
+    const [actors, setActors] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchName, setSearchName] = useState('');
     const [orderBy, setOrderBy] = useState('Name');
@@ -13,18 +13,18 @@ function EmployeesPage() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        loadEmployees();
+        loadActors();
         checkUserRole();
     }, [searchName, orderBy, pageNumber, pageSize]);
 
-    const loadEmployees = async () => {
-        const { data, metaData } = await fetchEmployees({
+    const loadActors = async () => {
+        const { data, metaData } = await fetchActors({
             SearchName: searchName,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
         });
-        setEmployees(data);
+        setActors(data);
         setMetaData(metaData);
     };
 
@@ -53,13 +53,13 @@ function EmployeesPage() {
     };
 
     return (
-        <div className="employees-page">
-            <h2>Employees</h2>
+        <div className="actors-page">
+            <h2>Actors</h2>
 
-            <div className="create-employee-container">
+            <div className="create-actor-container">
                 {isAdmin && (
-                    <Link to="/employees/create" className="create-employee-link">
-                        Create new Employee
+                    <Link to="/actors/create" className="create-actor-link">
+                        Create new Actor
                     </Link>
                 )}
             </div>
@@ -72,12 +72,12 @@ function EmployeesPage() {
                         type="text"
                         value={searchName}
                         onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter employee name"
+                        placeholder="Enter actor name"
                     />
                 </div>
             </form>
 
-            <table className="employees-table">
+            <table className="actors-table">
                 <thead>
                     <tr>
                         <th>
@@ -85,36 +85,27 @@ function EmployeesPage() {
                                 Name
                             </button>
                         </th>
-                        <th>
-                            <button onClick={() => handleSort('Role')} className="sort-button">
-                                Role
-                            </button>
-                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {employees.map((employee) => (
-                        <tr key={employee.employeeId}>
-                            <td>{employee.name}</td>
-                            <td>{employee.role}</td>
+                    {actors.map((actor) => (
+                        <tr key={actor.actorId}>
+                            <td>{actor.name}</td>
                             <td>
-                                <Link
-                                    to={`/employees/detail/${employee.employeeId}`}
-                                    className="action-link"
-                                >
+                                <Link to={`/actors/detail/${actor.actorId}`} className="action-link">
                                     Details
                                 </Link>
                                 {isAdmin && (
                                     <>
                                         <Link
-                                            to={`/employees/update/${employee.employeeId}`}
+                                            to={`/actors/update/${actor.actorId}`}
                                             className="action-link"
                                         >
                                             Edit
                                         </Link>
                                         <Link
-                                            to={`/employees/delete/${employee.employeeId}`}
+                                            to={`/actors/delete/${actor.actorId}`}
                                             className="action-link delete"
                                         >
                                             Delete
@@ -150,4 +141,4 @@ function EmployeesPage() {
     );
 }
 
-export default EmployeesPage;
+export default ActorsPage;

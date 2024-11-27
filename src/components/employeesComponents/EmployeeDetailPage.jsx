@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getActorById } from '../services/actors';
+import { getEmployeeById } from '../../services/employees';
 
-function ActorDetails() {
+function EmployeeDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [actor, setActor] = useState(null);
+    const [employee, setEmployee] = useState(null);
 
     useEffect(() => {
-        const loadActor = async () => {
+        const loadEmployee = async () => {
             try {
-                const data = await getActorById(id);
-                setActor(data);
+                const data = await getEmployeeById(id);
+                setEmployee(data);
             } catch (error) {
-                console.error('Failed to fetch actor:', error);
+                console.error('Failed to fetch employee:', error);
             }
         };
-        loadActor();
+        loadEmployee();
     }, [id]);
 
-    if (!actor) {
+    if (!employee) {
         return <p>Loading...</p>;
     }
 
@@ -27,18 +27,20 @@ function ActorDetails() {
         <div style={{ padding: '16px' }}>
             <h2>Детально</h2>
             <div>
-                <h4>Актер</h4>
+                <h4>Сотрудник</h4>
                 <hr />
                 <dl style={{ lineHeight: '1.8em' }}>
-                    <dt style={{ fontWeight: 'bold' }}>Номер(Id)</dt>
-                    <dd>{actor.actorId}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Номер (Id)</dt>
+                    <dd>{employee.employeeId}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Имя</dt>
-                    <dd>{actor.name}</dd>
+                    <dd>{employee.name}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Роль</dt>
+                    <dd>{employee.role}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>
                 <button
-                    onClick={() => navigate('/actors')}
+                    onClick={() => navigate('/employees')}
                     style={{
                         padding: '8px 16px',
                         background: '#ccc',
@@ -54,4 +56,4 @@ function ActorDetails() {
     );
 }
 
-export default ActorDetails;
+export default EmployeeDetailPage;

@@ -1,31 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation} from 'react-router-dom';
 import './styles/App.css';
-import ActorsPage from './components/ActorsPage';
-import GenresPage from './components/GenresPage';
-import MoviesPage from './components/MoviesPage';
-import EmployeesPage from './components/EmployeesPage';
+import ActorsPage from './components/actorsComponents/ActorsPage';
+import GenresPage from './components/genreComponents/GenresPage';
+import MoviesPage from './components/moviesComponents/MoviesPage';
+import EmployeesPage from './components/employeesComponents/EmployeesPage';
+import EventsPage from './components/eventsComponents/EventsPage';
+import ShowtimesPage from './components/showtimesComponents/ShowtimesPage';
 
-import DeleteEmployeePage from './components/DeleteEmployeePage';
-import EmployeeDetailPage from './components/EmployeeDetailPage';
-import CreateEmployeePage from './components/CreateEmployeePage';
-import EditEmployeePage from './components/EditEmployeePage';
+import CreateShowtimePage from './components/showtimesComponents/createShowtimePage';
+import EditShowtimePage from './components/showtimesComponents/EditShowtimePage';
+import DeleteShowtimePage from './components/showtimesComponents/DeleteShowtimePage';
+import ShowtimeDetailPage from './components/showtimesComponents/ShowtimeDetailPage';
+
+import CreateEventPage from './components/eventsComponents/CreateEventPage';
+import DeleteEventPage from './components/eventsComponents/DeleteEventPage';
+import EventDetailPage from './components/eventsComponents/EventDetailPage';
+import EditEventPage from './components/eventsComponents/EditEventPage';
+
+import DeleteEmployeePage from './components/employeesComponents/DeleteEmployeePage';
+import EmployeeDetailPage from './components/employeesComponents/EmployeeDetailPage';
+import CreateEmployeePage from './components/employeesComponents/CreateEmployeePage';
+import EditEmployeePage from './components/employeesComponents/EditEmployeePage';
 
 import Login from './components/Login';
-import DeleteActorPage from './components/DeleteActorPage';
-import EditActorPage from './components/EditActorPage';
-import ActorDetailPage from './components/ActorDetailPage';
-import CreateActorPage from './components/CreateActorPage';
+import DeleteActorPage from './components/actorsComponents/DeleteActorPage';
+import EditActorPage from './components/actorsComponents/EditActorPage';
+import ActorDetailPage from './components/actorsComponents/ActorDetailPage';
+import CreateActorPage from './components/actorsComponents/CreateActorPage';
 
-import CreateMoviePage from './components/CreateMoviePage';
-import MovieDetailPage from './components/MovieDetailPage';
-import DeleteMoviePage from './components/DeleteMoviePage';
-import EditMoviePage from './components/EditMoviePage';
+import CreateMoviePage from './components/moviesComponents/CreateMoviePage';
+import MovieDetailPage from './components/moviesComponents/MovieDetailPage';
+import DeleteMoviePage from './components/moviesComponents/DeleteMoviePage';
+import EditMoviePage from './components/moviesComponents/EditMoviePage';
 
-import DeleteGenrePage from './components/DeleteGenrePage';
-import EditGenrePage from './components/EditGenrePage';
-import GenreDetailPage from './components/GenreDetailPage';
-import CreateGenrePage from './components/CreateGenrePage';
+import DeleteGenrePage from './components/genreComponents/DeleteGenrePage';
+import EditGenrePage from './components/genreComponents/EditGenrePage';
+import GenreDetailPage from './components/genreComponents/GenreDetailPage';
+import CreateGenrePage from './components/genreComponents/CreateGenrePage';
 
 import RegistrationForm from './components/RegistrationForm';
 import Profile from './components/Profile';
@@ -37,6 +49,9 @@ import { Button } from "./components/ui/button"
 
 const Actors = () => (
     <ActorsPage />
+);
+const Events = () => (
+  <EventsPage />
 );
 const Genres = () => (
   <GenresPage />
@@ -51,11 +66,21 @@ const EditUs = () => (
   <EditUser />
 );
 
+const CreateEvent = () => (
+  <CreateEventPage />
+);
+const CreateShowtime = () => (
+  <CreateShowtimePage />
+);
+
 const CreateActor = () => (
   <CreateActorPage />
 );
 const Users = () => (
   <UsersList />
+);
+const Showtimes = () => (
+  <ShowtimesPage />
 );
 const Prof = () => (
   <Profile />
@@ -65,6 +90,9 @@ const Regist = () => (
 );
 const DeleteActor = () => (
   <DeleteActorPage />
+);
+const DeleteEvent = () => (
+  <DeleteEventPage />
 );
 const DeleteEmployee = () => (
   <DeleteEmployeePage />
@@ -78,11 +106,17 @@ const CreateEmployee = () => (
 const DetailActor = () => (
   <ActorDetailPage />
 );
+const DetailShowtime = () => (
+  <ShowtimeDetailPage />
+);
 const DetailEmployee = () => (
   <EmployeeDetailPage />
 );
 const UpdateActor = () => (
   <EditActorPage />
+);
+const UpdateEvent = () => (
+  <EditEventPage />
 );
 const UpdateEmployee = () => (
   <EditEmployeePage />
@@ -96,6 +130,9 @@ const DeleteGenre = () => (
 const DeleteMovie = () => (
   <DeleteMoviePage />
 );
+const DeleteShowtime = () => (
+  <DeleteShowtimePage />
+);
 const CreateGenre = () => (
   <CreateGenrePage />
 );
@@ -105,8 +142,14 @@ const DetailGenre = () => (
 const DetailMovie = () => (
   <MovieDetailPage />
 );
+const DetailEvent = () => (
+  <EventDetailPage />
+);
 const UpdateGenre = () => (
   <EditGenrePage />
+);
+const UpdateShowtime = () => (
+  <EditShowtimePage />
 );
 const Log = () => (
   <Login/>
@@ -213,7 +256,28 @@ function App() {
       navigate('/employees');
     }
   };
+  const handleEventsClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
 
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/events');
+    }
+  };
+  const handleShowtimesClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/showtimes');
+    }
+  };
   return (
     <Provider>
       <div>
@@ -234,6 +298,12 @@ function App() {
                   </li>
                   <li>
                     <Link className="nav-link" onClick={handleEmployeesClick}>Работники</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleEventsClick}>Мероприятия</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleShowtimesClick}>Сеансы</Link>
                   </li>
                 </ul>
                 <div className="auth-links">
@@ -275,6 +345,16 @@ function App() {
             <Route path="/genres" element={<Genres />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/employees" element={<Employees />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/showtimes" element={<Showtimes />} />
+            <Route path="/showtimes/create" element={<CreateShowtime />} />
+            <Route path="/events/create" element={<CreateEvent />} />
+            <Route path="/showtimes/update/:id" element={<UpdateShowtime />} />
+            <Route path="/showtimes/detail/:id" element={<DetailShowtime />} />
+            <Route path="/showtimes/delete/:id" element={<DeleteShowtime />} />
+            <Route path="/events/delete/:id" element={<DeleteEvent />} />
+            <Route path="/events/detail/:id" element={<DetailEvent />} />
+            <Route path="/events/update/:id" element={<UpdateEvent />} />
             <Route path="/employees/delete/:id" element={<DeleteEmployee />} />
             <Route path="/employees/detail/:id" element={<DetailEmployee />} />
             <Route path="/employees/create" element={<CreateEmployee />} />
