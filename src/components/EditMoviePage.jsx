@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { data, useNavigate, useParams } from 'react-router-dom';
 import { getMovieById, updateMovie } from '../services/movies';
+import { fetchGenres } from '../services/genres';
 
 function EditMoviePage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState({
+        genreId: '',
         title: '',
         duration: '',
         productionCompany: '',
@@ -14,6 +16,7 @@ function EditMoviePage() {
         description: '',
         movieId: '',
     });
+    const [genres, setGenres] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -28,18 +31,32 @@ function EditMoviePage() {
         loadMovie();
     }, [id]);
 
+    useEffect(() => {
+        const loadGenres = async () => {
+            try {
+                const dataGenres = await fetchGenres();
+                setGenres(dataGenres.data);
+            } catch (error) {
+                console.error('Failed to fetch genres:', error);
+            }
+        };
+        loadGenres();
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setMovie((prevMovie) => ({
             ...prevMovie,
+            genreId: data.genreId || '',
             [name]: value,
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const { genreName, ...movieToUpdate } = movie;
         try {
-            await updateMovie(movie.movieId, movie);
+            await updateMovie(movieToUpdate.movieId, movieToUpdate);
             navigate('/movies');
         } catch (error) {
             console.error('Failed to update movie:', error);
@@ -80,8 +97,35 @@ function EditMoviePage() {
                                 border: '1px solid #ccc',
                             }}
                         />
-                        {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
                     </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="genreId" style={{ display: 'block', marginBottom: '8px' }}>
+                            Жанр
+                        </label>
+                        <select
+                            id="genreId"
+                            name="genreId"
+                            value={movie.genreId}
+                            onChange={handleChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                            }}
+                        >
+                            <option value="">Выберите жанр</option>
+                            {genres.map((genre) => (
+                                <option key={genre.genreId} value={genre.genreId}>
+                                    {genre.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="duration" style={{ display: 'block', marginBottom: '8px' }}>
                             Продолжительность
@@ -187,6 +231,7 @@ function EditMoviePage() {
                         />
                         {errors.description && <span style={{ color: 'red' }}>{errors.description}</span>}
                     </div>
+
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                             type="submit"

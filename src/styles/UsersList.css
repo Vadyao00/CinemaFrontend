@@ -9,7 +9,6 @@ div {
     margin-bottom: 20px;
   }
   
-  /* Кнопка "Добавить" */
   .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
@@ -26,7 +25,6 @@ div {
     border-color: #0056b3;
   }
   
-  /* Стили для таблицы */
   table {
     width: 100%;
     border-collapse: collapse;

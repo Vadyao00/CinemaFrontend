@@ -73,7 +73,6 @@ h2 {
     color: #555;
 }
 
-/* Таблицы для актеров, фильмов и жанров */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -82,7 +81,7 @@ table {
 
 th, td {
     padding: 8px;
-    border: 1px solid #ddd; /* Границы ячеек */
+    border: 1px solid #ddd;
     font-size: 14px;
     color: #555;
 }
@@ -126,7 +125,6 @@ th:last-child {
     color: #dc3545;
 }
 
-/* Стили для страницы актеров */
 .actors-page {
     padding: 16px;
 }
@@ -135,7 +133,6 @@ th:last-child {
     text-align: left;
 }
 
-/* Стили для страницы фильмов */
 .movies-page {
     padding: 16px;
 }
@@ -144,7 +141,6 @@ th:last-child {
     text-align: left;
 }
 
-/* Стили для страницы жанров */
 .genres-page {
     padding: 16px;
 }

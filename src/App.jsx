@@ -4,6 +4,12 @@ import './styles/App.css';
 import ActorsPage from './components/ActorsPage';
 import GenresPage from './components/GenresPage';
 import MoviesPage from './components/MoviesPage';
+import EmployeesPage from './components/EmployeesPage';
+
+import DeleteEmployeePage from './components/DeleteEmployeePage';
+import EmployeeDetailPage from './components/EmployeeDetailPage';
+import CreateEmployeePage from './components/CreateEmployeePage';
+import EditEmployeePage from './components/EditEmployeePage';
 
 import Login from './components/Login';
 import DeleteActorPage from './components/DeleteActorPage';
@@ -38,6 +44,9 @@ const Genres = () => (
 const Movies = () => (
   <MoviesPage />
 );
+const Employees = () => (
+  <EmployeesPage />
+);
 const EditUs = () => (
   <EditUser />
 );
@@ -57,14 +66,26 @@ const Regist = () => (
 const DeleteActor = () => (
   <DeleteActorPage />
 );
+const DeleteEmployee = () => (
+  <DeleteEmployeePage />
+);
 const CreateMovie = () => (
   <CreateMoviePage />
+);
+const CreateEmployee = () => (
+  <CreateEmployeePage />
 );
 const DetailActor = () => (
   <ActorDetailPage />
 );
+const DetailEmployee = () => (
+  <EmployeeDetailPage />
+);
 const UpdateActor = () => (
   <EditActorPage />
+);
+const UpdateEmployee = () => (
+  <EditEmployeePage />
 );
 const UpdateMovie = () => (
   <EditMoviePage />
@@ -181,6 +202,17 @@ function App() {
       navigate('/movies');
     }
   };
+  const handleEmployeesClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/employees');
+    }
+  };
 
   return (
     <Provider>
@@ -199,6 +231,9 @@ function App() {
                   </li>
                   <li>
                     <Link className="nav-link" onClick={handleMoviesClick}>Фильмы</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleEmployeesClick}>Работники</Link>
                   </li>
                 </ul>
                 <div className="auth-links">
@@ -239,6 +274,11 @@ function App() {
             <Route path="/edituser" element={<EditUs />} />
             <Route path="/genres" element={<Genres />} />
             <Route path="/movies" element={<Movies />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="/employees/delete/:id" element={<DeleteEmployee />} />
+            <Route path="/employees/detail/:id" element={<DetailEmployee />} />
+            <Route path="/employees/create" element={<CreateEmployee />} />
+            <Route path="/employees/update/:id" element={<UpdateEmployee />} />
             <Route path="/movies/create" element={<CreateMovie />} />
             <Route path="/movies/detail/:id" element={<DetailMovie />} />
             <Route path="/movies/delete/:id" element={<DeleteMovie />} />

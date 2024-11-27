@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-export const fetchMovies = async (params) => {
+export const fetchEmployees = async (params) => {
     try {
         const token = localStorage.getItem('accessToken');
 
-        const response = await axios.get("https://localhost:7254/api/movies", {
+        const response = await axios.get("https://localhost:7254/api/employees", {
             params,
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -19,45 +19,44 @@ export const fetchMovies = async (params) => {
             metaData,
         };
     } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.error("Error fetching employees:", error);
         return { data: [], metaData: null };
     }
 };
 
-export const getMovieById = async (id) => {
+export const getEmployeeById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');
-        const response = await axios.get(`https://localhost:7254/api/movies/${id}`, {
+        const response = await axios.get(`https://localhost:7254/api/employees/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
         return response.data;
     } catch (error) {
-        console.error("Error fetching movie:", error);
-        throw new Error("Failed to fetch movie");
+        console.error("Error fetching employee:", error);
+        throw new Error("Failed to fetch employee");
     }
 };
 
-export const deleteMovie = async (id) => {
+export const deleteEmployee = async (id) => {
     try{
         const token = localStorage.getItem('accessToken');
 
-        await axios.delete(`https://localhost:7254/api/movies/${id}`,{
+        await axios.delete(`https://localhost:7254/api/employees/${id}`,{
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
     }catch (error) {
-        console.error("Error fetching movie:", error);
-        throw new Error("Failed to fetch movie");
+        console.error("Error fetching employee:", error);
+        throw new Error("Failed to fetch employee");
     }
 }
 
-export const updateMovie = async (id, movie) => {
+export const updateEmployee = async (id, employee) => {
     const token = localStorage.getItem('accessToken');
-    console.log(movie);
-    const response = await axios.put(`https://localhost:7254/api/movies/${id}`, movie, {
+    const response = await axios.put(`https://localhost:7254/api/employees/${id}`, employee, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -65,9 +64,9 @@ export const updateMovie = async (id, movie) => {
     return response.data;
 };
 
-export const createMovie = async (id, movie) => {
+export const createEmployee = async (employee) => {
     const token = localStorage.getItem('accessToken');
-    const response = await axios.post(`https://localhost:7254/api/movies/${id}`, movie, {
+    const response = await axios.post('https://localhost:7254/api/employees', employee, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
