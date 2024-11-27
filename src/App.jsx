@@ -7,6 +7,12 @@ import MoviesPage from './components/moviesComponents/MoviesPage';
 import EmployeesPage from './components/employeesComponents/EmployeesPage';
 import EventsPage from './components/eventsComponents/EventsPage';
 import ShowtimesPage from './components/showtimesComponents/ShowtimesPage';
+import TicketsPage from './components/ticketsComponents/TicketsPage';
+
+import DeleteTicketPage from './components/ticketsComponents/DeleteTicketPage';
+import TicketDetailPage from './components/ticketsComponents/TicketDetailPage';
+import EditTicketPage from './components/ticketsComponents/EditTicketPage';
+import CreateTicketPage from './components/ticketsComponents/CreateTicketPage';
 
 import CreateShowtimePage from './components/showtimesComponents/createShowtimePage';
 import EditShowtimePage from './components/showtimesComponents/EditShowtimePage';
@@ -50,6 +56,9 @@ import { Button } from "./components/ui/button"
 const Actors = () => (
     <ActorsPage />
 );
+const Tickets = () => (
+  <TicketsPage />
+);
 const Events = () => (
   <EventsPage />
 );
@@ -91,6 +100,9 @@ const Regist = () => (
 const DeleteActor = () => (
   <DeleteActorPage />
 );
+const DeleteTicket = () => (
+  <DeleteTicketPage />
+);
 const DeleteEvent = () => (
   <DeleteEventPage />
 );
@@ -99,6 +111,9 @@ const DeleteEmployee = () => (
 );
 const CreateMovie = () => (
   <CreateMoviePage />
+);
+const CreateTicket = () => (
+  <CreateTicketPage />
 );
 const CreateEmployee = () => (
   <CreateEmployeePage />
@@ -142,11 +157,17 @@ const DetailGenre = () => (
 const DetailMovie = () => (
   <MovieDetailPage />
 );
+const DetailTicket = () => (
+  <TicketDetailPage />
+);
 const DetailEvent = () => (
   <EventDetailPage />
 );
 const UpdateGenre = () => (
   <EditGenrePage />
+);
+const UpdateTicket = () => (
+  <EditTicketPage />
 );
 const UpdateShowtime = () => (
   <EditShowtimePage />
@@ -278,6 +299,17 @@ function App() {
       navigate('/showtimes');
     }
   };
+  const handleTicketsClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/tickets');
+    }
+  };
   return (
     <Provider>
       <div>
@@ -304,6 +336,9 @@ function App() {
                   </li>
                   <li>
                     <Link className="nav-link" onClick={handleShowtimesClick}>Сеансы</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleTicketsClick}>Билеты</Link>
                   </li>
                 </ul>
                 <div className="auth-links">
@@ -346,9 +381,14 @@ function App() {
             <Route path="/movies" element={<Movies />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/tickets" element={<Tickets />} />
             <Route path="/showtimes" element={<Showtimes />} />
             <Route path="/showtimes/create" element={<CreateShowtime />} />
             <Route path="/events/create" element={<CreateEvent />} />
+            <Route path="/tickets/delete/:id" element={<DeleteTicket />} />
+            <Route path="/tickets/detail/:id" element={<DetailTicket />} />
+            <Route path="/tickets/update/:id" element={<UpdateTicket />} />
+            <Route path="/tickets/create" element={<CreateTicket />} />
             <Route path="/showtimes/update/:id" element={<UpdateShowtime />} />
             <Route path="/showtimes/detail/:id" element={<DetailShowtime />} />
             <Route path="/showtimes/delete/:id" element={<DeleteShowtime />} />
