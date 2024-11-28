@@ -8,6 +8,18 @@ import EmployeesPage from './components/employeesComponents/EmployeesPage';
 import EventsPage from './components/eventsComponents/EventsPage';
 import ShowtimesPage from './components/showtimesComponents/ShowtimesPage';
 import TicketsPage from './components/ticketsComponents/TicketsPage';
+import WorkLogsPage from './components/workLogsComponents/WorkLogsPage';
+import SeatsPage from './components/seatsComponents/SeatsPage';
+
+import SeatDetailPage from './components/seatsComponents/SeatDetailPage';
+import DeleteSeatPage from './components/seatsComponents/DeleteSeatPage';
+import EditSeatPage from './components/seatsComponents/EditSeatPage';
+import CreateSeatPage from './components/seatsComponents/CreateSeatPage';
+
+import DeleteWorkLogPage from './components/workLogsComponents/DeleteWorkLogPage';
+import WorkLogDetailPage from './components/workLogsComponents/WorkLogDetailPage';
+import EditWorkLogPage from './components/workLogsComponents/EditWorkLogPage';
+import CreateWorkLogPage from './components/workLogsComponents/CreateWorkLogPage';
 
 import DeleteTicketPage from './components/ticketsComponents/DeleteTicketPage';
 import TicketDetailPage from './components/ticketsComponents/TicketDetailPage';
@@ -68,8 +80,14 @@ const Genres = () => (
 const Movies = () => (
   <MoviesPage />
 );
+const WorkLogs = () => (
+  <WorkLogsPage />
+);
 const Employees = () => (
   <EmployeesPage />
+);
+const Seats = () => (
+  <SeatsPage />
 );
 const EditUs = () => (
   <EditUser />
@@ -78,10 +96,15 @@ const EditUs = () => (
 const CreateEvent = () => (
   <CreateEventPage />
 );
+const CreateWorkLog = () => (
+  <CreateWorkLogPage />
+);
 const CreateShowtime = () => (
   <CreateShowtimePage />
 );
-
+const CreateSeat = () => (
+  <CreateSeatPage />
+);
 const CreateActor = () => (
   <CreateActorPage />
 );
@@ -103,6 +126,9 @@ const DeleteActor = () => (
 const DeleteTicket = () => (
   <DeleteTicketPage />
 );
+const DeleteSeat = () => (
+  <DeleteSeatPage />
+);
 const DeleteEvent = () => (
   <DeleteEventPage />
 );
@@ -121,14 +147,23 @@ const CreateEmployee = () => (
 const DetailActor = () => (
   <ActorDetailPage />
 );
+const DetailSeat = () => (
+  <SeatDetailPage />
+);
 const DetailShowtime = () => (
   <ShowtimeDetailPage />
 );
 const DetailEmployee = () => (
   <EmployeeDetailPage />
 );
+const DetailWorkLog = () => (
+  <WorkLogDetailPage />
+);
 const UpdateActor = () => (
   <EditActorPage />
+);
+const UpdateWorkLog = () => (
+  <EditWorkLogPage />
 );
 const UpdateEvent = () => (
   <EditEventPage />
@@ -148,6 +183,9 @@ const DeleteMovie = () => (
 const DeleteShowtime = () => (
   <DeleteShowtimePage />
 );
+const DeleteWorkLog = () => (
+  <DeleteWorkLogPage />
+);
 const CreateGenre = () => (
   <CreateGenrePage />
 );
@@ -165,6 +203,9 @@ const DetailEvent = () => (
 );
 const UpdateGenre = () => (
   <EditGenrePage />
+);
+const UpdateSeat = () => (
+  <EditSeatPage />
 );
 const UpdateTicket = () => (
   <EditTicketPage />
@@ -310,6 +351,28 @@ function App() {
       navigate('/tickets');
     }
   };
+  const handleWorkLogsClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/workLogs');
+    }
+  };
+  const handleSeatsClick = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      navigate('/unathorized');
+    }
+    else{
+      navigate('/seats');
+    }
+  };
   return (
     <Provider>
       <div>
@@ -339,6 +402,12 @@ function App() {
                   </li>
                   <li>
                     <Link className="nav-link" onClick={handleTicketsClick}>Билеты</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleWorkLogsClick}>Журнал работников</Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link" onClick={handleSeatsClick}>Места</Link>
                   </li>
                 </ul>
                 <div className="auth-links">
@@ -383,6 +452,16 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/showtimes" element={<Showtimes />} />
+            <Route path="/workLogs" element={<WorkLogs />} />
+            <Route path="/seats" element={<Seats />} />
+            <Route path="/seats/detail/:id" element={<DetailSeat />} />
+            <Route path="/seats/delete/:id" element={<DeleteSeat />} />
+            <Route path="/seats/update/:id" element={<UpdateSeat />} />
+            <Route path="/seats/create" element={<CreateSeat />} />
+            <Route path="/workLogs/delete/:id" element={<DeleteWorkLog />} />
+            <Route path="/workLogs/detail/:id" element={<DetailWorkLog />} />
+            <Route path="/workLogs/update/:id" element={<UpdateWorkLog />} />
+            <Route path="/workLogs/create" element={<CreateWorkLog />} />
             <Route path="/showtimes/create" element={<CreateShowtime />} />
             <Route path="/events/create" element={<CreateEvent />} />
             <Route path="/tickets/delete/:id" element={<DeleteTicket />} />

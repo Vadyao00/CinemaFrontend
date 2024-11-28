@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-export const fetchSeats = async (params) => {
+export const fetchWorkLogs = async (params) => {
     try {
         const token = localStorage.getItem('accessToken');
 
-        const response = await axios.get("https://localhost:7254/api/seats", {
+        const response = await axios.get("https://localhost:7254/api/workLogs", {
             params,
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -19,44 +19,44 @@ export const fetchSeats = async (params) => {
             metaData,
         };
     } catch (error) {
-        console.error("Error fetching seats:", error);
+        console.error("Error fetching workLogs:", error);
         return { data: [], metaData: null };
     }
 };
 
-export const getSeatById = async (id) => {
+export const getWorkLogById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');
-        const response = await axios.get(`https://localhost:7254/api/seats/${id}`, {
+        const response = await axios.get(`https://localhost:7254/api/workLogs/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
         return response.data;
     } catch (error) {
-        console.error("Error fetching seat:", error);
-        throw new Error("Failed to fetch seat");
+        console.error("Error fetching workLog:", error);
+        throw new Error("Failed to fetch workLog");
     }
 };
 
-export const deleteSeat = async (id) => {
+export const deleteWorkLog = async (id) => {
     try{
         const token = localStorage.getItem('accessToken');
 
-        await axios.delete(`https://localhost:7254/api/seats/${id}`,{
+        await axios.delete(`https://localhost:7254/api/workLogs/${id}`,{
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
     }catch (error) {
-        console.error("Error fetching seat:", error);
-        throw new Error("Failed to fetch seat");
+        console.error("Error fetching workLog:", error);
+        throw new Error("Failed to fetch workLog");
     }
 }
 
-export const updateSeat = async (id, seat) => {
+export const updateWorkLog = async (id, workLog) => {
     const token = localStorage.getItem('accessToken');
-    const response = await axios.put(`https://localhost:7254/api/seats/${id}`, seat, {
+    const response = await axios.put(`https://localhost:7254/api/workLogs/${id}`, workLog, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -64,19 +64,9 @@ export const updateSeat = async (id, seat) => {
     return response.data;
 };
 
-export const createSeatForEvent = async (id, seat) => {
+export const createWorkLog = async (id, workLog) => {
     const token = localStorage.getItem('accessToken');
-    const response = await axios.post(`https://localhost:7254/api/seats/events/${id}`, seat, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    return response.data;
-};
-
-export const createSeatForShowtime = async (id, seat) => {
-    const token = localStorage.getItem('accessToken');
-    const response = await axios.post(`https://localhost:7254/api/seats/showtimes/${id}`, seat, {
+    const response = await axios.post(`https://localhost:7254/api/workLogs/${id}`, workLog, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
