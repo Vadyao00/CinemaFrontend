@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getActorById, updateActor } from '../../services/actors';
+import { fetchMovies } from '../../services/movies';
 
-function EditActor() {
+function EditActorPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [actor, setActor] = useState({ name: '', actorId: '' });
+    const [actor, setActor] = useState({ name: '', actorId: '', moviesIds: [] });
+    const [movies, setMovies] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        const loadActor = async () => {
+        const loadActorAndMovies = async () => {
             try {
-                const data = await getActorById(id);
-                setActor(data);
+                const actorData = await getActorById(id);
+                setActor(actorData);
+
+                const moviesData = await fetchMovies();
+                setMovies(moviesData.data);
             } catch (error) {
-                console.error('Failed to fetch actor:', error);
+                console.error('Failed to fetch actor or movies:', error);
             }
         };
-        loadActor();
+        loadActorAndMovies();
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setActor((prevActor) => ({
-            ...prevActor,
-            [name]: value,
-        }));
+        if (name === 'moviesIds') {
+            const selectedMovies = Array.from(e.target.selectedOptions, option => option.value);
+            setActor((prevActor) => ({
+                ...prevActor,
+                [name]: selectedMovies,
+            }));
+        } else {
+            setActor((prevActor) => ({
+                ...prevActor,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -71,6 +84,34 @@ function EditActor() {
                         />
                         {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
                     </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="moviesIds" style={{ display: 'block', marginBottom: '8px' }}>
+                            Выберите фильмы
+                        </label>
+                        <select
+                            id="moviesIds"
+                            name="moviesIds"
+                            multiple
+                            value={actor.moviesIds}
+                            onChange={handleChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                            }}
+                        >
+                            {movies.map((movie) => (
+                                <option key={movie.movieId} value={movie.movieId}>
+                                    {movie.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                             type="submit"
@@ -104,4 +145,4 @@ function EditActor() {
     );
 }
 
-export default EditActor;
+export default EditActorPage;

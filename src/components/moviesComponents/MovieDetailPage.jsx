@@ -46,6 +46,8 @@ function MovieDetailPage() {
                     <dd>{movie.ageRestriction}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Описание</dt>
                     <dd>{movie.description}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Актеры</dt>
+                    <dd>{movie.actors}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>

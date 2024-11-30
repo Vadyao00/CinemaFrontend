@@ -91,6 +91,7 @@ function MoviesPage() {
                         <th>Country</th>
                         <th>Age Restriction</th>
                         <th>Description</th>
+                        <th>Актеры</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -104,6 +105,7 @@ function MoviesPage() {
                             <td>{movie.country || 'N/A'}</td>
                             <td>{movie.ageRestriction || 'N/A'}</td>
                             <td>{movie.description || 'No description available'}</td>
+                            <td>{movie.actors}</td>
                             <td>
                                 <Link to={`/movies/detail/${movie.movieId}`} className="action-link">
                                     Details

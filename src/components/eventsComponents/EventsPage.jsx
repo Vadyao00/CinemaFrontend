@@ -89,6 +89,7 @@ function EventsPage() {
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Ticket Price</th>
+                        <th>Работники</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -100,6 +101,7 @@ function EventsPage() {
                             <td>{event.startTime}</td>
                             <td>{event.endTime}</td>
                             <td>${event.ticketPrice.toFixed(2)}</td>
+                            <td>{event.employees}</td>
                             <td>
                                 <Link to={`/events/detail/${event.eventId}`} className="action-link">
                                     Details

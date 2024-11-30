@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getShowtimeById, updateShowtime } from '../../services/showtimes';
 import { fetchMovies } from '../../services/movies';
+import { fetchEmployees } from '../../services/employees';
 
 function EditShowtimePage() {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [showtime, setShowtime] = useState({
         date: '',
         startTime: '',
@@ -13,8 +15,10 @@ function EditShowtimePage() {
         ticketPrice: '',
         movieId: '',
         showtimeId: '',
+        employeesIds: [],
     });
     const [movies, setMovies] = useState([]);
+    const [allEmployees, setAllEmployees] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -36,8 +40,18 @@ function EditShowtimePage() {
             }
         };
 
+        const loadEmployees = async () => {
+            try {
+                const employees = await fetchEmployees();
+                setAllEmployees(employees.data);
+            } catch (error) {
+                console.error('Failed to fetch employees:', error);
+            }
+        };
+
         loadShowtime();
         loadMovies();
+        loadEmployees();
     }, [id]);
 
     const handleChange = (e) => {
@@ -45,6 +59,15 @@ function EditShowtimePage() {
         setShowtime((prevShowtime) => ({
             ...prevShowtime,
             [name]: value,
+        }));
+    };
+
+    const handleEmployeesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions);
+        const selectedIds = selectedOptions.map((option) => option.value);
+        setShowtime((prevShowtime) => ({
+            ...prevShowtime,
+            employeesIds: selectedIds,
         }));
     };
 
@@ -101,6 +124,35 @@ function EditShowtimePage() {
                         </select>
                         {errors.movieId && <span style={{ color: 'red' }}>{errors.movieId}</span>}
                     </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="employees" style={{ display: 'block', marginBottom: '8px' }}>
+                            Связанные сотрудники
+                        </label>
+                        <select
+                            id="employees"
+                            name="employees"
+                            multiple
+                            value={showtime.employeesIds}
+                            onChange={handleEmployeesChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                                height: '120px',
+                            }}
+                        >
+                            {allEmployees.map((employee) => (
+                                <option key={employee.employeeId} value={employee.employeeId}>
+                                    {employee.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="date" style={{ display: 'block', marginBottom: '8px' }}>
                             Дата
@@ -187,6 +239,7 @@ function EditShowtimePage() {
                             <span style={{ color: 'red' }}>{errors.ticketPrice}</span>
                         )}
                     </div>
+
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                             type="submit"

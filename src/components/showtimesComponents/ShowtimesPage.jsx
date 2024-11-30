@@ -101,6 +101,7 @@ function ShowtimesPage() {
                             </button>
                         </th>
                         <th>Movie Title</th>
+                        <th>Работники</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -111,7 +112,8 @@ function ShowtimesPage() {
                             <td>{showtime.startTime}</td>
                             <td>{showtime.endTime}</td>
                             <td>{showtime.ticketPrice}</td>
-                            <td>{showtime.movieTitle || 'N/A'}</td>
+                            <td>{showtime.movieTitle || '-'}</td>
+                            <td>{showtime.employees || '-'}</td>
                             <td>
                                 <Link to={`/showtimes/detail/${showtime.showtimeId}`} className="action-link">
                                     Details

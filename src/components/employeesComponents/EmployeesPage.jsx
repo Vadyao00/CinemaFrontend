@@ -90,6 +90,8 @@ function EmployeesPage() {
                                 Role
                             </button>
                         </th>
+                        <th>Мероприятия</th>
+                        <th>Сеансы</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -98,6 +100,8 @@ function EmployeesPage() {
                         <tr key={employee.employeeId}>
                             <td>{employee.name}</td>
                             <td>{employee.role}</td>
+                            <td>{employee.events}</td>
+                            <td>{employee.showtimes}</td>
                             <td>
                                 <Link
                                     to={`/employees/detail/${employee.employeeId}`}

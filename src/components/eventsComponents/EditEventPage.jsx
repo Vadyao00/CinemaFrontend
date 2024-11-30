@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEventById, updateEvent } from '../../services/events';
+import { fetchEmployees } from '../../services/employees';
 
 function EditEventPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [event, setEvent] = useState({
         name: '',
         date: '',
         startTime: '',
         endTime: '',
         ticketPrice: '',
-        eventId: ''
+        eventId: '',
+        employeesIds: [],
     });
+    const [allEmployees, setAllEmployees] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -24,7 +28,18 @@ function EditEventPage() {
                 console.error('Failed to fetch event:', error);
             }
         };
+
+        const loadEmployees = async () => {
+            try {
+                const employees = await fetchEmployees();
+                setAllEmployees(employees.data);
+            } catch (error) {
+                console.error('Failed to fetch employees:', error);
+            }
+        };
+
         loadEvent();
+        loadEmployees();
     }, [id]);
 
     const handleChange = (e) => {
@@ -32,6 +47,15 @@ function EditEventPage() {
         setEvent((prevEvent) => ({
             ...prevEvent,
             [name]: value,
+        }));
+    };
+
+    const handleEmployeesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions);
+        const selectedIds = selectedOptions.map((option) => option.value);
+        setEvent((prevEvent) => ({
+            ...prevEvent,
+            employeesIds: selectedIds,
         }));
     };
 
@@ -80,6 +104,36 @@ function EditEventPage() {
                             }}
                         />
                         {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
+                    </div>
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="employees" style={{ display: 'block', marginBottom: '8px' }}>
+                            Связанные сотрудники
+                        </label>
+                        <select
+                            id="employees"
+                            name="employees"
+                            multiple
+                            value={event.employeesIds}
+                            onChange={handleEmployeesChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                                height: '120px',
+                            }}
+                        >
+                            {allEmployees.map((employee) => (
+                                <option key={employee.employeeId} value={employee.employeeId}>
+                                    {employee.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.employees && (
+                            <span style={{ color: 'red' }}>{errors.employees}</span>
+                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="date" style={{ display: 'block', marginBottom: '8px' }}>

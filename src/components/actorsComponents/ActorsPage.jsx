@@ -85,6 +85,7 @@ function ActorsPage() {
                                 Name
                             </button>
                         </th>
+                        <th>Фильмы, в которых снимается</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -92,6 +93,7 @@ function ActorsPage() {
                     {actors.map((actor) => (
                         <tr key={actor.actorId}>
                             <td>{actor.name}</td>
+                            <td>{actor.movies}</td>
                             <td>
                                 <Link to={`/actors/detail/${actor.actorId}`} className="action-link">
                                     Details

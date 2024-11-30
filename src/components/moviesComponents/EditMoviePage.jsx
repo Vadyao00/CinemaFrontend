@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { data, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getMovieById, updateMovie } from '../../services/movies';
 import { fetchGenres } from '../../services/genres';
+import { fetchActors } from '../../services/actors';
 
 function EditMoviePage() {
     const { id } = useParams();
@@ -15,8 +16,10 @@ function EditMoviePage() {
         ageRestriction: '',
         description: '',
         movieId: '',
+        actorsIds: [],
     });
     const [genres, setGenres] = useState([]);
+    const [actors, setActors] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -40,16 +43,34 @@ function EditMoviePage() {
                 console.error('Failed to fetch genres:', error);
             }
         };
+
+        const loadActors = async () => {
+            try {
+                const dataActors = await fetchActors();
+                setActors(dataActors.data);
+            } catch (error) {
+                console.error('Failed to fetch actors:', error);
+            }
+        };
+
         loadGenres();
+        loadActors();
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setMovie((prevMovie) => ({
-            ...prevMovie,
-            genreId: data.genreId || '',
-            [name]: value,
-        }));
+        if (name === 'actorsIds') {
+            const selectedActors = Array.from(e.target.selectedOptions, (option) => option.value);
+            setMovie((prevMovie) => ({
+                ...prevMovie,
+                [name]: selectedActors,
+            }));
+        } else {
+            setMovie((prevMovie) => ({
+                ...prevMovie,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -121,6 +142,34 @@ function EditMoviePage() {
                             {genres.map((genre) => (
                                 <option key={genre.genreId} value={genre.genreId}>
                                     {genre.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="actorsIds" style={{ display: 'block', marginBottom: '8px' }}>
+                            Актеры
+                        </label>
+                        <select
+                            id="actorsIds"
+                            name="actorsIds"
+                            multiple
+                            value={movie.actorsIds}
+                            onChange={handleChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                                height: '120px',
+                            }}
+                        >
+                            {actors.map((actor) => (
+                                <option key={actor.actorId} value={actor.actorId}>
+                                    {actor.name}
                                 </option>
                             ))}
                         </select>
@@ -231,7 +280,7 @@ function EditMoviePage() {
                         />
                         {errors.description && <span style={{ color: 'red' }}>{errors.description}</span>}
                     </div>
-
+                    
                     <div style={{ display: 'flex', gap: '8px' }}>
                         <button
                             type="submit"

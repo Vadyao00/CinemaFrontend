@@ -34,6 +34,8 @@ function ActorDetails() {
                     <dd>{actor.actorId}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Имя</dt>
                     <dd>{actor.name}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Фильмы, в которых снимался</dt>
+                    <dd>{actor.movies}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>

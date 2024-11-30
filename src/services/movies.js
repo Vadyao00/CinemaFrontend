@@ -56,7 +56,6 @@ export const deleteMovie = async (id) => {
 
 export const updateMovie = async (id, movie) => {
     const token = localStorage.getItem('accessToken');
-    console.log(movie);
     const response = await axios.put(`https://localhost:7254/api/movies/${id}`, movie, {
         headers: {
             Authorization: `Bearer ${token}`,

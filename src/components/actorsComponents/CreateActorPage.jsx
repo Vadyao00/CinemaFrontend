@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createActor } from '../../services/actors';
 
-function CreateActor() {
+function CreateActorPage() {
     const navigate = useNavigate();
     const [actor, setActor] = useState({
         name: '',
@@ -20,7 +20,7 @@ function CreateActor() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createActor(actor); 
+            await createActor(actor);
             navigate('/actors');
         } catch (error) {
             console.error('Failed to create actor:', error);
@@ -55,6 +55,7 @@ function CreateActor() {
                             <span style={{ color: 'red' }}>{errors.name}</span>
                         )}
                     </div>
+
                     <div style={{ marginTop: '16px' }}>
                         <button
                             type="submit"
@@ -89,4 +90,4 @@ function CreateActor() {
     );
 }
 
-export default CreateActor;
+export default CreateActorPage;
