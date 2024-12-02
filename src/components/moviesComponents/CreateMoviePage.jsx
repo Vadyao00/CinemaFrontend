@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchGenres } from '../../services/genres';
+import { fetchAllGenres } from '../../services/genres';
 import { createMovie } from '../../services/movies';
 import '../../styles/CreateMoviePage.css';
 
@@ -19,8 +19,8 @@ function CreateMoviePage() {
     useEffect(() => {
         const loadGenres = async () => {
             try {
-                const dataGenres = await fetchGenres();
-                setGenres(dataGenres.data);
+                const dataGenres = await fetchAllGenres();
+                setGenres(dataGenres);
             } catch (error) {
                 console.error('Failed to fetch genres:', error);
             }

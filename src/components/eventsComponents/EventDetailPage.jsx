@@ -42,6 +42,8 @@ function EventDetailPage() {
                     <dd>{event.endTime}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Цена билета</dt>
                     <dd>{event.ticketPrice}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Работники</dt>
+                    <dd>{event.employees}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>

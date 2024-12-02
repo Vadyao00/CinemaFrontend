@@ -11,35 +11,46 @@ h2 {
     color: #333;
 }
 
-.create-actor-link, .create-movie-link, .create-genre-link {
+.create-actor-link, .create-movie-link, .create-genre-link,
+.create-event-link, .create-item-link {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.create-actor-link:hover, .create-movie-link:hover, .create-genre-link:hover {
+.create-actor-link:hover, .create-movie-link:hover, .create-genre-link:hover,
+.create-event-link:hover, .create-item-link:hover {
     text-decoration: underline;
 }
 
 .search-form {
+    display: flex;
+    gap: 16px;
+    align-items: center;
     margin-bottom: 16px;
 }
 
+.search-item {
+    display: flex;
+    align-items: center;
+}
+
 .search-form label {
+    margin-right: 8px;
     font-size: 14px;
     font-weight: bold;
 }
 
 .search-form input {
-    display: block;
-    margin-top: 4px;
-    padding: 8px;
-    width: 100%;
-    max-width: 300px;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    box-sizing: border-box;
+    width: 200px;
+}
+
+.search-form input[type="date"] {
+    width: 150px;
 }
 
 .pagination {
@@ -50,7 +61,6 @@ h2 {
 .pagination button {
     padding: 8px 16px;
     margin: 0 4px;
-    border: none;
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
@@ -92,8 +102,7 @@ th {
     text-align: left;
 }
 
-td:last-child,
-th:last-child {
+td:last-child, th:last-child {
     text-align: center;
 }
 
@@ -125,55 +134,22 @@ th:last-child {
     color: #dc3545;
 }
 
-.actors-page {
+.actors-page, .movies-page, .genres-page {
     padding: 16px;
-}
-
-.actors-table th, .actors-table td {
-    text-align: left;
-}
-
-.movies-page {
-    padding: 16px;
-}
-
-.movies-table th, .movies-table td {
-    text-align: left;
-}
-
-.genres-page {
-    padding: 16px;
-}
-
-.genres-table th, .genres-table td {
-    text-align: left;
 }
 
 .create-genre-container {
     margin-bottom: 16px;
 }
 
-.pagination button {
-    padding: 8px 16px;
-    margin: 0 4px;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    color: white;
+.table-header-container, .create-search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
-.pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.pagination button:not(:disabled) {
-    background-color: #007bff;
-}
-
-.pagination span {
-    margin: 0 8px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
+.create-item-container {
+    display: flex;
+    align-items: center;
 }

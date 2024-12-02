@@ -24,6 +24,24 @@ export const fetchGenres = async (params) => {
     }
 };
 
+export const fetchAllGenres = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+
+        const response = await axios.get("https://localhost:7254/api/genres/withoutmeta", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all genres:", error);
+        return { data: [], metaData: null };
+    }
+};
+
 export const getGenreById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');

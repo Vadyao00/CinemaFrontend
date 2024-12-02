@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMovieById, updateMovie } from '../../services/movies';
-import { fetchGenres } from '../../services/genres';
-import { fetchActors } from '../../services/actors';
+import { fetchAllGenres } from '../../services/genres';
+import { fetchAllActors } from '../../services/actors';
 
 function EditMoviePage() {
     const { id } = useParams();
@@ -37,8 +37,8 @@ function EditMoviePage() {
     useEffect(() => {
         const loadGenres = async () => {
             try {
-                const dataGenres = await fetchGenres();
-                setGenres(dataGenres.data);
+                const dataGenres = await fetchAllGenres();
+                setGenres(dataGenres);
             } catch (error) {
                 console.error('Failed to fetch genres:', error);
             }
@@ -46,8 +46,8 @@ function EditMoviePage() {
 
         const loadActors = async () => {
             try {
-                const dataActors = await fetchActors();
-                setActors(dataActors.data);
+                const dataActors = await fetchAllActors();
+                setActors(dataActors);
             } catch (error) {
                 console.error('Failed to fetch actors:', error);
             }

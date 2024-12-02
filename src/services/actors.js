@@ -24,6 +24,24 @@ export const fetchActors = async (params) => {
     }
 };
 
+export const fetchAllActors = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+
+        const response = await axios.get("https://localhost:7254/api/actors/withoutmeta", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all actors:", error);
+        return { data: [], metaData: null };
+    }
+};
+
 export const getActorById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');

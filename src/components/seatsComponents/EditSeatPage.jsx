@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSeatById, updateSeat } from '../../services/seats';
-import { fetchEvents } from '../../services/events';
-import { fetchShowtimes } from '../../services/showtimes';
+import { fetchAllEvents } from '../../services/events';
+import { fetchAllShowtimes } from '../../services/showtimes';
 
 function EditSeatPage() {
     const { id } = useParams();
@@ -33,20 +33,20 @@ function EditSeatPage() {
     useEffect(() => {
         const loadEvents = async () => {
             try {
-                const dataEvents = await fetchEvents();
-                setEvents(dataEvents.data);
+                const dataEvents = await fetchAllEvents();
+                setEvents(dataEvents);
             } catch (error) {
-                console.error('Failed to fetch events:', error);
+                console.error('Failed to fetch all events:', error);
             }
         };
         loadEvents();
 
         const loadShowtimes = async () => {
             try {
-                const dataShowtimes = await fetchShowtimes();
-                setShowtimes(dataShowtimes.data);
+                const dataShowtimes = await fetchAllShowtimes();
+                setShowtimes(dataShowtimes);
             } catch (error) {
-                console.error('Failed to fetch showtimes:', error);
+                console.error('Failed to fetch all showtimes:', error);
             }
         };
         loadShowtimes();

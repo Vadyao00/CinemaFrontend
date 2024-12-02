@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEventById, updateEvent } from '../../services/events';
-import { fetchEmployees } from '../../services/employees';
+import { fetchAllEmployees } from '../../services/employees';
 
 function EditEventPage() {
     const { id } = useParams();
@@ -31,10 +31,10 @@ function EditEventPage() {
 
         const loadEmployees = async () => {
             try {
-                const employees = await fetchEmployees();
-                setAllEmployees(employees.data);
+                const employees = await fetchAllEmployees();
+                setAllEmployees(employees);
             } catch (error) {
-                console.error('Failed to fetch employees:', error);
+                console.error('Failed to fetch all employees:', error);
             }
         };
 

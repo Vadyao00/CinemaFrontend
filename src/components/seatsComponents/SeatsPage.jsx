@@ -56,51 +56,51 @@ function SeatsPage() {
 
     return (
         <div className="seats-page">
-            <h2>Seats</h2>
-
-            <div className="create-seat-container">
+            <h2>Места</h2>
+            <div className="create-search-container">
+            <div className="create-item-container">
                 {isAdmin && (
-                    <Link to="/seats/create" className="create-seat-link">
-                        Create new Seat
+                    <Link to="/seats/create" className="create-item-link">
+                        Создать
                     </Link>
                 )}
             </div>
 
             <form onChange={handleSearch} className="search-form">
                 <div>
-                    <label htmlFor="searchEventName">Search by Event Name:</label>
+                    <label htmlFor="searchEventName">Поиск по названию мероприятия:</label>
                     <input
                         id="searchEventName"
                         type="text"
                         value={searchEventName}
                         onChange={(e) => setSearchEventName(e.target.value)}
-                        placeholder="Enter event name"
+                        placeholder="Введите название мероприятия"
                     />
                 </div>
                 <div>
-                    <label htmlFor="searchShowtimeName">Search by Showtime Name:</label>
+                    <label htmlFor="searchShowtimeName">Поиск по названию сеанса:</label>
                     <input
                         id="searchShowtimeName"
                         type="text"
                         value={searchShowtimeName}
                         onChange={(e) => setSearchShowtimeName(e.target.value)}
-                        placeholder="Enter showtime name"
+                        placeholder="Введите название сеанса"
                     />
                 </div>
             </form>
-
+            </div>
             <table className="seats-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('SeatNumber')} className="sort-button">
-                                Seat Number
+                                Номер места
                             </button>
                         </th>
-                        <th>Showtime Name</th>
-                        <th>Event Name</th>
-                        <th>Is Occupied</th>
-                        <th>Actions</th>
+                        <th>Название сеанса</th>
+                        <th>Название мероприятия</th>
+                        <th>Занято</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

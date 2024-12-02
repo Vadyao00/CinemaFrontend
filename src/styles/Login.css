@@ -72,6 +72,9 @@ html, body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    position: relative;
+    display: flex;
+    margin-left: 118px;
   }
   
   button#login-button:hover {

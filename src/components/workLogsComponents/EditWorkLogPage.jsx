@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getWorkLogById, updateWorkLog } from '../../services/workLogs';
-import { fetchEmployees } from '../../services/employees';
+import { fetchAllEmployees } from '../../services/employees';
 
 function EditWorkLogPage() {
     const { id } = useParams();
@@ -31,10 +31,10 @@ function EditWorkLogPage() {
     useEffect(() => {
         const loadEmployees = async () => {
             try {
-                const dataEmployees = await fetchEmployees();
-                setEmployees(dataEmployees.data);
+                const dataEmployees = await fetchAllEmployees();
+                setEmployees(dataEmployees);
             } catch (error) {
-                console.error('Failed to fetch employees:', error);
+                console.error('Failed to fetch all employees:', error);
             }
         };
         loadEmployees();

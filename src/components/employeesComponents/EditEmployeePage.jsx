@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEmployeeById, updateEmployee } from '../../services/employees';
-import { fetchEvents } from '../../services/events';
-import { fetchShowtimes } from '../../services/showtimes';
+import { fetchAllEvents } from '../../services/events';
+import { fetchAllShowtimes } from '../../services/showtimes';
 
 function EditEmployeePage() {
     const { id } = useParams();
@@ -25,19 +25,19 @@ function EditEmployeePage() {
 
         const loadEvents = async () => {
             try {
-                const eventsData = await fetchEvents();
-                setEvents(eventsData.data);
+                const eventsData = await fetchAllEvents();
+                setEvents(eventsData);
             } catch (error) {
-                console.error('Failed to fetch events:', error);
+                console.error('Failed to fetch all events:', error);
             }
         };
 
         const loadShowtimes = async () => {
             try {
-                const showtimesData = await fetchShowtimes();
-                setShowtimes(showtimesData.data);
+                const showtimesData = await fetchAllShowtimes();
+                setShowtimes(showtimesData);
             } catch (error) {
-                console.error('Failed to fetch showtimes:', error);
+                console.error('Failed to fetch all showtimes:', error);
             }
         };
 

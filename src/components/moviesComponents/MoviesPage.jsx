@@ -7,6 +7,7 @@ function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchTitle, setSearchTitle] = useState('');
+    const [searchProductionCompany, setSearchProductionCompany] = useState('');
     const [orderBy, setOrderBy] = useState('Title');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -15,11 +16,12 @@ function MoviesPage() {
     useEffect(() => {
         loadMovies();
         checkUserRole();
-    }, [searchTitle, orderBy, pageNumber, pageSize]);
+    }, [searchTitle, searchProductionCompany, orderBy, pageNumber, pageSize]);
 
     const loadMovies = async () => {
         const { data, metaData } = await fetchMovies({
             SearchTitle: searchTitle,
+            SearchProductionCompany: searchProductionCompany,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
@@ -33,17 +35,12 @@ function MoviesPage() {
         setIsAdmin(role === 'Administrator');
     };
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setPageNumber(1);
-    };
-
-    const handleSort = (field) => {
+    const handleSort = () => {
         setOrderBy((prevOrderBy) => {
-            if (prevOrderBy === `${field} desc`) {
-                return `${field} asc`;
+            if (prevOrderBy === `Title desc`) {
+                return `Title asc`;
             } else {
-                return `${field} desc`;
+                return `Title desc`;
             }
         });
     };
@@ -54,45 +51,61 @@ function MoviesPage() {
 
     return (
         <div className="movies-page">
-            <h2>Movies</h2>
+            <h2>Фильмы</h2>
+            <div className="create-search-container">
+                <div className="create-item-container">
+                    {isAdmin && (
+                        <Link to="/movies/create" className="create-item-link">
+                            Создать
+                        </Link>
+                    )}
+                </div>
 
-            <div className="create-movie-container">
-                {isAdmin && (
-                    <Link to="/movies/create" className="create-movie-link">
-                        Create new Movie
-                    </Link>
-                )}
-            </div>
-
-            <form onChange={handleSearch} className="search-form">
+            <form className="search-form">
                 <div>
-                    <label htmlFor="searchTitle">Search by Title:</label>
+                    <label htmlFor="searchTitle">Поиск по названию:</label>
                     <input
                         id="searchTitle"
                         type="text"
                         value={searchTitle}
-                        onChange={(e) => setSearchTitle(e.target.value)}
-                        placeholder="Enter movie title"
+                        onChange={(e) => {
+                            setSearchTitle(e.target.value);
+                            setPageNumber(1);
+                        }}
+                        placeholder="Введите название фильма"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="searchProductionCompany">Поиск по компании:</label>
+                    <input
+                        id="searchProductionCompany"
+                        type="text"
+                        value={searchProductionCompany}
+                        onChange={(e) => {
+                            setSearchProductionCompany(e.target.value);
+                            setPageNumber(1);
+                        }}
+                        placeholder="Введите компанию"
                     />
                 </div>
             </form>
-
+            </div>
             <table className="movies-table">
                 <thead>
                     <tr>
                         <th>
-                            <button onClick={() => handleSort('Title')} className="sort-button">
-                                Title
+                            <button onClick={handleSort} className="sort-button">
+                                Название
                             </button>
                         </th>
-                        <th>Genre</th>
-                        <th>Duration</th>
-                        <th>Production Company</th>
-                        <th>Country</th>
-                        <th>Age Restriction</th>
-                        <th>Description</th>
+                        <th>Жанр</th>
+                        <th>Продолжительность</th>
+                        <th>Компания</th>
+                        <th>Страна</th>
+                        <th>Возрастное ограничение</th>
+                        <th>Описание</th>
                         <th>Актеры</th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,11 +114,11 @@ function MoviesPage() {
                             <td>{movie.title}</td>
                             <td>{movie.genreName}</td>
                             <td>{movie.duration}</td>
-                            <td>{movie.productionCompany || 'N/A'}</td>
-                            <td>{movie.country || 'N/A'}</td>
-                            <td>{movie.ageRestriction || 'N/A'}</td>
-                            <td>{movie.description || 'No description available'}</td>
-                            <td>{movie.actors}</td>
+                            <td>{movie.productionCompany || '-'}</td>
+                            <td>{movie.country || '-'}</td>
+                            <td>{movie.ageRestriction || '-'}</td>
+                            <td>{movie.description || '-'}</td>
+                            <td>{movie.actors || '-'}</td>
                             <td>
                                 <Link to={`/movies/detail/${movie.movieId}`} className="action-link">
                                     Details

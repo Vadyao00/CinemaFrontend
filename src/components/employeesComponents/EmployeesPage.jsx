@@ -54,45 +54,47 @@ function EmployeesPage() {
 
     return (
         <div className="employees-page">
-            <h2>Employees</h2>
+            <h2>Работники</h2>
 
-            <div className="create-employee-container">
-                {isAdmin && (
-                    <Link to="/employees/create" className="create-employee-link">
-                        Create new Employee
-                    </Link>
-                )}
-            </div>
-
-            <form onChange={handleSearch} className="search-form">
-                <div>
-                    <label htmlFor="searchName">Search by Name:</label>
-                    <input
-                        id="searchName"
-                        type="text"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter employee name"
-                    />
+            <div className="create-search-container">
+                <div className="create-item-container">
+                    {isAdmin && (
+                        <Link to="/employees/create" className="create-item-link">
+                            Создать
+                        </Link>
+                    )}
                 </div>
-            </form>
+
+                <form onChange={handleSearch} className="search-form">
+                    <div>
+                        <label htmlFor="searchName">Поиск по имени:</label>
+                        <input
+                            id="searchName"
+                            type="text"
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)}
+                            placeholder="Введите имя работника"
+                        />
+                    </div>
+                </form>
+            </div>
 
             <table className="employees-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('Name')} className="sort-button">
-                                Name
+                                Имя
                             </button>
                         </th>
                         <th>
                             <button onClick={() => handleSort('Role')} className="sort-button">
-                                Role
+                                Должность
                             </button>
                         </th>
                         <th>Мероприятия</th>
                         <th>Сеансы</th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

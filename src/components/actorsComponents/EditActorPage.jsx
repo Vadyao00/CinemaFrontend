@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getActorById, updateActor } from '../../services/actors';
-import { fetchMovies } from '../../services/movies';
+import { fetchAllMovies } from '../../services/movies';
 
 function EditActorPage() {
     const { id } = useParams();
@@ -16,8 +16,8 @@ function EditActorPage() {
                 const actorData = await getActorById(id);
                 setActor(actorData);
 
-                const moviesData = await fetchMovies();
-                setMovies(moviesData.data);
+                const moviesData = await fetchAllMovies();
+                setMovies(moviesData);
             } catch (error) {
                 console.error('Failed to fetch actor or movies:', error);
             }

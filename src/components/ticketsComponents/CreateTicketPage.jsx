@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchSeats } from '../../services/seats';
+import { fetchAllSeats } from '../../services/seats';
 import { createTicket } from '../../services/tickets';
 import '../../styles/CreateTicketPage.css';
 
@@ -14,8 +14,8 @@ function CreateTicketPage() {
     useEffect(() => {
         const loadSeats = async () => {
             try {
-                const dataSeats = await fetchSeats();
-                setSeats(dataSeats.data);
+                const dataSeats = await fetchAllSeats();
+                setSeats(dataSeats);
             } catch (error) {
                 console.error('Failed to fetch seats:', error);
             }

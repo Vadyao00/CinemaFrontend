@@ -54,39 +54,41 @@ function ActorsPage() {
 
     return (
         <div className="actors-page">
-            <h2>Actors</h2>
+            <h2>Актеры</h2>
 
-            <div className="create-actor-container">
-                {isAdmin && (
-                    <Link to="/actors/create" className="create-actor-link">
-                        Create new Actor
-                    </Link>
-                )}
-            </div>
-
-            <form onChange={handleSearch} className="search-form">
-                <div>
-                    <label htmlFor="searchName">Search by Name:</label>
-                    <input
-                        id="searchName"
-                        type="text"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter actor name"
-                    />
+            <div className="table-header-container">
+                <div className="create-item-container">
+                    {isAdmin && (
+                        <Link to="/actors/create" className="create-item-link">
+                            Создать
+                        </Link>
+                    )}
                 </div>
-            </form>
+
+                <form onChange={handleSearch} className="search-form">
+                    <div>
+                        <label htmlFor="searchName">Найти по имени:</label>
+                        <input
+                            id="searchName"
+                            type="text"
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)}
+                            placeholder="Введите имя актера"
+                        />
+                    </div>
+                </form>
+            </div>
 
             <table className="actors-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('Name')} className="sort-button">
-                                Name
+                                Имя
                             </button>
                         </th>
                         <th>Фильмы, в которых снимается</th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

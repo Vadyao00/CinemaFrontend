@@ -7,6 +7,8 @@ function ShowtimesPage() {
     const [showtimes, setShowtimes] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchTitle, setSearchTitle] = useState('');
+    const [searchTicketPrice, setSearchTicketPrice] = useState('');
+    const [searchMonth, setSearchMonth] = useState('');
     const [orderBy, setOrderBy] = useState('Date');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -15,11 +17,13 @@ function ShowtimesPage() {
     useEffect(() => {
         loadShowtimes();
         checkUserRole();
-    }, [searchTitle, orderBy, pageNumber, pageSize]);
+    }, [searchTitle, searchTicketPrice, searchMonth, orderBy, pageNumber, pageSize]);
 
     const loadShowtimes = async () => {
         const { data, metaData } = await fetchShowtimes({
             SearchTitle: searchTitle,
+            SearchTicketPrice: searchTicketPrice,
+            SearchMonth: searchMonth,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
@@ -54,55 +58,77 @@ function ShowtimesPage() {
 
     return (
         <div className="showtimes-page">
-            <h2>Showtimes</h2>
-
-            <div className="create-showtime-container">
+            <h2>Сеансы</h2>
+            <div className="create-search-container">
+            <div className="create-item-container">
                 {isAdmin && (
-                    <Link to="/showtimes/create" className="create-showtime-link">
-                        Create new Showtime
+                    <Link to="/showtimes/create" className="create-item-link">
+                        Создать
                     </Link>
                 )}
             </div>
 
-            <form onChange={handleSearch} className="search-form">
+            <form onSubmit={handleSearch} className="search-form">
                 <div>
-                    <label htmlFor="searchTitle">Search by Movie Title:</label>
+                    <label htmlFor="searchTitle">Поиск по названию фильма:</label>
                     <input
                         id="searchTitle"
                         type="text"
                         value={searchTitle}
                         onChange={(e) => setSearchTitle(e.target.value)}
-                        placeholder="Enter movie title"
+                        placeholder="Введите название фильма"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="searchTicketPrice">Поиск по цене билета:</label>
+                    <input
+                        id="searchTicketPrice"
+                        type="number"
+                        value={searchTicketPrice}
+                        onChange={(e) => setSearchTicketPrice(e.target.value)}
+                        placeholder="Введите цену"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="searchMonth">Поиск по месяцу:</label>
+                    <input
+                        id="searchMonth"
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={searchMonth}
+                        onChange={(e) => setSearchMonth(e.target.value)}
+                        placeholder="Введите месяц (1-12)"
                     />
                 </div>
             </form>
-
+            </div>
             <table className="showtimes-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('Date')} className="sort-button">
-                                Date
+                                Дата
                             </button>
                         </th>
                         <th>
                             <button onClick={() => handleSort('StartTime')} className="sort-button">
-                                Start Time
+                                Время начала
                             </button>
                         </th>
                         <th>
                             <button onClick={() => handleSort('EndTime')} className="sort-button">
-                                End Time
+                                Время окончания
                             </button>
                         </th>
                         <th>
                             <button onClick={() => handleSort('TicketPrice')} className="sort-button">
-                                Ticket Price
+                                Цена билета
                             </button>
                         </th>
-                        <th>Movie Title</th>
+                        <th>Название фильма</th>
                         <th>Работники</th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -24,6 +24,23 @@ export const fetchSeats = async (params) => {
     }
 };
 
+export const fetchAllSeats = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+
+        const response = await axios.get("https://localhost:7254/api/seats/withoutmeta", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all seats:", error);
+        return { data: [], metaData: null };
+    }
+};
+
 export const getSeatById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');

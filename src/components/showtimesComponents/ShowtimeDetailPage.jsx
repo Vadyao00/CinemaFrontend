@@ -42,6 +42,8 @@ function ShowtimeDetailPage() {
                     <dd>{showtime.ticketPrice}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Фильм (Название)</dt>
                     <dd>{showtime.movieTitle}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Работники</dt>
+                    <dd>{showtime.employees}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>

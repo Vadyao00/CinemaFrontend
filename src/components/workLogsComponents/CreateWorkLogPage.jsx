@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchEmployees } from '../../services/employees';
+import { fetchAllEmployees } from '../../services/employees';
 import { createWorkLog } from '../../services/workLogs';
 import '../../styles/CreateWorkLogPage.css';
 
@@ -16,10 +16,10 @@ function CreateWorkLogPage() {
     useEffect(() => {
         const loadEmployees = async () => {
             try {
-                const dataEmployees = await fetchEmployees();
-                setEmployees(dataEmployees.data);
+                const dataEmployees = await fetchAllEmployees();
+                setEmployees(dataEmployees);
             } catch (error) {
-                console.error('Failed to fetch employees:', error);
+                console.error('Failed to fetch all employees:', error);
             }
         };
         loadEmployees();

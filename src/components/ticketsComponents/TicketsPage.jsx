@@ -47,12 +47,12 @@ function TicketsPage() {
 
     return (
         <div className="tickets-page">
-            <h2>Tickets</h2>
+            <h2>Билеты</h2>
 
-            <div className="create-ticket-container">
+            <div className="create-item-container">
                 {isAdmin && (
-                    <Link to="/tickets/create" className="create-ticket-link">
-                        Create new Ticket
+                    <Link to="/tickets/create" className="create-item-link">
+                        Создать
                     </Link>
                 )}
             </div>
@@ -60,13 +60,13 @@ function TicketsPage() {
             <table className="tickets-table">
                 <thead>
                     <tr>
-                        <th>Seat Number</th>
+                        <th>Номер места</th>
                         <th>
                             <button onClick={() => handleSort('PurchaseDate')} className="sort-button">
-                                Purchase Date
+                                Дата
                             </button>
                         </th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

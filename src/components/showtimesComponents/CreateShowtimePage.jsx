@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchMovies } from '../../services/movies';
+import { fetchAllMovies } from '../../services/movies';
 import { createShowtime } from '../../services/showtimes';
 import '../../styles/CreateShowtimePage.css';
 
@@ -17,8 +17,8 @@ function CreateShowtimePage() {
     useEffect(() => {
         const loadMovies = async () => {
             try {
-                const dataMovies = await fetchMovies();
-                setMovies(dataMovies.data);
+                const dataMovies = await fetchAllMovies();
+                setMovies(dataMovies);
             } catch (error) {
                 console.error('Failed to fetch movies:', error);
             }

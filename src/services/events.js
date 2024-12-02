@@ -24,6 +24,23 @@ export const fetchEvents = async (params) => {
     }
 };
 
+export const fetchAllEvents = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+
+        const response = await axios.get("https://localhost:7254/api/events/withoutmeta", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all events:", error);
+        return { data: [], metaData: null };
+    }
+};
+
 export const getEventById = async (id) => {
     try {
         const token = localStorage.getItem('accessToken');

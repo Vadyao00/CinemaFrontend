@@ -54,39 +54,39 @@ function GenresPage() {
 
     return (
         <div className="actors-page">
-            <h2>Genres</h2>
-
-            <div className="create-actor-container">
-                {isAdmin && (
-                    <Link to="/genres/create" className="create-actor-link">
-                        Create new Genre
-                    </Link>
-                )}
-            </div>
-
-            <form onChange={handleSearch} className="search-form">
-                <div>
-                    <label htmlFor="searchName">Search by Name:</label>
-                    <input
-                        id="searchName"
-                        type="text"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter genre name"
-                    />
+            <h2>Жанры</h2>
+            <div className="create-search-container">
+                <div className="create-item-container">
+                    {isAdmin && (
+                        <Link to="/genres/create" className="create-item-link">
+                            Создать
+                        </Link>
+                    )}
                 </div>
-            </form>
 
+                <form onChange={handleSearch} className="search-form">
+                    <div>
+                        <label htmlFor="searchName">Поиск по названию:</label>
+                        <input
+                            id="searchName"
+                            type="text"
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)}
+                            placeholder="Введите название жанра"
+                        />
+                    </div>
+                </form>
+            </div>
             <table className="actors-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('Name')} className="sort-button">
-                                Name
+                                Названия
                             </button>
                         </th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th>Описание</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

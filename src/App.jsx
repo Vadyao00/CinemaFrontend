@@ -62,7 +62,6 @@ import Profile from './components/Profile';
 import UsersList from './components/UsersList';
 import EditUser from './components/EditUser';
 import { Provider } from "./components/ui/provider"
-import { Button } from "./components/ui/button"
 //import './components/axiosSetup';
 
 const Actors = () => (
@@ -381,35 +380,35 @@ function App() {
             <div className="container">
               <a className="navbar-brand" href="/">Кинотеатр</a>
               <div className="navbar-links">
-                <ul className="nav-links">
-                  <li>
-                    <Link className="nav-link" onClick={handleActorsClick}>Актеры</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleGenresClick}>Жанры</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleMoviesClick}>Фильмы</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleEmployeesClick}>Работники</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleEventsClick}>Мероприятия</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleShowtimesClick}>Сеансы</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleTicketsClick}>Билеты</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleWorkLogsClick}>Журнал работников</Link>
-                  </li>
-                  <li>
-                    <Link className="nav-link" onClick={handleSeatsClick}>Места</Link>
-                  </li>
-                </ul>
+              <ul className="nav-links">
+                <li>
+                    <button className="btn" onClick={handleActorsClick}>Актеры</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleGenresClick}>Жанры</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleMoviesClick}>Фильмы</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleEmployeesClick}>Работники</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleEventsClick}>Мероприятия</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleShowtimesClick}>Сеансы</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleTicketsClick}>Билеты</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleWorkLogsClick}>Журнал</button>
+                </li>
+                <li>
+                    <button className="btn" onClick={handleSeatsClick}>Места</button>
+                </li>
+            </ul>
                 <div className="auth-links">
                   {!isUserSignedIn ? (
                     <>

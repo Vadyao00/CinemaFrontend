@@ -7,6 +7,8 @@ function EventsPage() {
     const [events, setEvents] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchName, setSearchName] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [orderBy, setOrderBy] = useState('Name');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -15,11 +17,13 @@ function EventsPage() {
     useEffect(() => {
         loadEvents();
         checkUserRole();
-    }, [searchName, orderBy, pageNumber, pageSize]);
+    }, [searchName, startDate, endDate, orderBy, pageNumber, pageSize]);
 
     const loadEvents = async () => {
         const { data, metaData } = await fetchEvents({
             SearchName: searchName,
+            StartDate: startDate,
+            EndDate: endDate,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
@@ -31,11 +35,6 @@ function EventsPage() {
     const checkUserRole = () => {
         const role = localStorage.getItem('userRole');
         setIsAdmin(role === 'Administrator');
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setPageNumber(1);
     };
 
     const handleSort = (field) => {
@@ -54,43 +53,61 @@ function EventsPage() {
 
     return (
         <div className="events-page">
-            <h2>Events</h2>
-
-            <div className="create-event-container">
-                {isAdmin && (
-                    <Link to="/events/create" className="create-event-link">
-                        Create new Event
-                    </Link>
-                )}
-            </div>
-
-            <form onChange={handleSearch} className="search-form">
-                <div>
-                    <label htmlFor="searchName">Search by Name:</label>
-                    <input
-                        id="searchName"
-                        type="text"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        placeholder="Enter event name"
-                    />
+            <h2>Мероприятия</h2>
+            <div className="create-search-container">
+                <div className="create-item-container">
+                    {isAdmin && (
+                        <Link to="/events/create" className="create-item-link">
+                            Создать
+                        </Link>
+                    )}
                 </div>
-            </form>
 
+                <form className="search-form">
+                    <div className="search-item">
+                        <label htmlFor="searchName">Поиск по названию:</label>
+                        <input
+                            id="searchName"
+                            type="text"
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)}
+                            placeholder="Введите название мероприятия"
+                        />
+                    </div>
+                    <div className="search-item">
+                        <label htmlFor="startDate">Начальная дата:</label>
+                        <input
+                            id="startDate"
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                        />
+                    </div>
+                    <div className="search-item">
+                        <label htmlFor="endDate">Конечная дата:</label>
+                        <input
+                            id="endDate"
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                        />
+                    </div>
+                </form>
+            </div>
             <table className="events-table">
                 <thead>
                     <tr>
                         <th>
                             <button onClick={() => handleSort('Name')} className="sort-button">
-                                Name
+                                Название
                             </button>
                         </th>
-                        <th>Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Ticket Price</th>
+                        <th>Дата</th>
+                        <th>Время начала</th>
+                        <th>Время окончания</th>
+                        <th>Цена билета</th>
                         <th>Работники</th>
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>

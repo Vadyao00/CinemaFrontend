@@ -36,6 +36,10 @@ function EmployeeDetailPage() {
                     <dd>{employee.name}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Роль</dt>
                     <dd>{employee.role}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Мероприятия</dt>
+                    <dd>{employee.events}</dd>
+                    <dt style={{ fontWeight: 'bold' }}>Сеансы</dt>
+                    <dd>{employee.showtimes}</dd>
                 </dl>
             </div>
             <div style={{ marginTop: '16px' }}>

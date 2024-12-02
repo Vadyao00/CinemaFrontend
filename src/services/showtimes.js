@@ -3,7 +3,6 @@ import axios from 'axios';
 export const fetchShowtimes = async (params) => {
     try {
         const token = localStorage.getItem('accessToken');
-
         const response = await axios.get("https://localhost:7254/api/showtimes", {
             params,
             headers: {
@@ -20,6 +19,22 @@ export const fetchShowtimes = async (params) => {
         };
     } catch (error) {
         console.error("Error fetching showtimes:", error);
+        return { data: [], metaData: null };
+    }
+};
+
+export const fetchAllShowtimes = async () => {
+    try {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get("https://localhost:7254/api/showtimes/withoutmeta", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all showtimes:", error);
         return { data: [], metaData: null };
     }
 };

@@ -7,6 +7,7 @@ function WorkLogsPage() {
     const [workLogs, setWorkLogs] = useState([]);
     const [metaData, setMetaData] = useState();
     const [searchEmployee, setSearchEmployee] = useState('');
+    const [searchWorkExperience, setSearchWorkExperience] = useState('');
     const [orderBy, setOrderBy] = useState('WorkExperience');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -15,11 +16,12 @@ function WorkLogsPage() {
     useEffect(() => {
         loadWorkLogs();
         checkUserRole();
-    }, [searchEmployee, orderBy, pageNumber, pageSize]);
+    }, [searchEmployee, searchWorkExperience, orderBy, pageNumber, pageSize]);
 
     const loadWorkLogs = async () => {
         const { data, metaData } = await fetchWorkLogs({
             SearchName: searchEmployee,
+            SearchWorkExperience: searchWorkExperience,
             OrderBy: orderBy,
             PageNumber: pageNumber,
             PageSize: pageSize,
@@ -31,11 +33,6 @@ function WorkLogsPage() {
     const checkUserRole = () => {
         const role = localStorage.getItem('userRole');
         setIsAdmin(role === 'Administrator');
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setPageNumber(1);
     };
 
     const handleSort = (field) => {
@@ -54,45 +51,61 @@ function WorkLogsPage() {
 
     return (
         <div className="worklogs-page">
-            <h2>Work Logs</h2>
-
-            <div className="create-worklog-container">
+            <h2>Журнал работников</h2>
+        <div className="create-search-container">
+            <div className="create-item-container">
                 {isAdmin && (
-                    <Link to="/worklogs/create" className="create-worklog-link">
-                        Create new Work Log
+                    <Link to="/worklogs/create" className="create-item-link">
+                        Создать
                     </Link>
                 )}
             </div>
 
-            <form onChange={handleSearch} className="search-form">
+            <form className="search-form">
                 <div>
-                    <label htmlFor="searchEmployee">Search by Employee Name:</label>
+                    <label htmlFor="searchEmployee">Поиск по имени работника:</label>
                     <input
                         id="searchEmployee"
                         type="text"
                         value={searchEmployee}
-                        onChange={(e) => setSearchEmployee(e.target.value)}
-                        placeholder="Enter employee name"
+                        onChange={(e) => {
+                            setSearchEmployee(e.target.value);
+                            setPageNumber(1);
+                        }}
+                        placeholder="Введите имя работника"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="searchWorkExperience">Поиск по опыту работы:</label>
+                    <input
+                        id="searchWorkExperience"
+                        type="text"
+                        value={searchWorkExperience}
+                        onChange={(e) => {
+                            setSearchWorkExperience(e.target.value);
+                            setPageNumber(1);
+                        }}
+                        placeholder="Введите опыт работы"
                     />
                 </div>
             </form>
-
+            </div>
             <table className="worklogs-table">
                 <thead>
                     <tr>
-                        <th>Employee Name</th>
+                        <th>Имя работника</th>
                         <th>
                             <button onClick={() => handleSort('WorkExperience')} className="sort-button">
-                                Work Experience
+                                Опыт работы
                             </button>
                         </th>
-                        <th>Start Date</th>
+                        <th>Дата начала</th>
                         <th>
                             <button onClick={() => handleSort('WorkHours')} className="sort-button">
-                                Work Hours
+                                Количество часов
                             </button>
                         </th>
-                        <th>Actions</th>
+                        <th>Дейтсвия</th>
                     </tr>
                 </thead>
                 <tbody>
