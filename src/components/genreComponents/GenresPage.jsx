@@ -96,7 +96,7 @@ function GenresPage() {
                             <td>{genre.description}</td>
                             <td>
                                 <Link to={`/genres/detail/${genre.genreId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -104,13 +104,13 @@ function GenresPage() {
                                             to={`/genres/update/${genre.genreId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/genres/delete/${genre.genreId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

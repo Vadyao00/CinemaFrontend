@@ -72,11 +72,11 @@ function TicketsPage() {
                 <tbody>
                     {tickets.map((ticket) => (
                         <tr key={ticket.ticketId}>
-                            <td>{ticket.seatNumber}</td>
+                            <td>{ticket.seatNumber} - {ticket.name}</td>
                             <td>{ticket.purchaseDate}</td>
                             <td>
                                 <Link to={`/tickets/detail/${ticket.ticketId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -84,13 +84,13 @@ function TicketsPage() {
                                             to={`/tickets/update/${ticket.ticketId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/tickets/delete/${ticket.ticketId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

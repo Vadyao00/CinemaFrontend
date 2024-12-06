@@ -121,7 +121,7 @@ function EventsPage() {
                             <td>{event.employees}</td>
                             <td>
                                 <Link to={`/events/detail/${event.eventId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -129,13 +129,13 @@ function EventsPage() {
                                             to={`/events/update/${event.eventId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/events/delete/${event.eventId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

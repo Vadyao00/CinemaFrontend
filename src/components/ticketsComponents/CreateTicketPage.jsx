@@ -67,7 +67,7 @@ function CreateTicketPage() {
                         <option value="">Выберите место</option>
                         {seats.map((seat) => (
                             <option key={seat.seatId} value={seat.seatId}>
-                                Место {seat.seatNumber}
+                                Место {seat.seatNumber} - {seat.eventName ? seat.eventName : seat.showtimeName}
                             </option>
                         ))}
                     </select>

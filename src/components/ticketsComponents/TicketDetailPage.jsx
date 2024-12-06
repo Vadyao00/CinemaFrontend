@@ -33,7 +33,7 @@ function TicketDetailPage() {
                     <dt style={{ fontWeight: 'bold' }}>Номер билета (ID)</dt>
                     <dd>{ticket.ticketId}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Номер места</dt>
-                    <dd>{ticket.seatNumber}</dd>
+                    <dd>{ticket.seatNumber} - {ticket.name}</dd>
                     <dt style={{ fontWeight: 'bold' }}>Дата покупки</dt>
                     <dd>{ticket.purchaseDate}</dd>
                 </dl>

@@ -112,7 +112,7 @@ function SeatsPage() {
                             <td>{seat.isOccupied ? 'Yes' : 'No'}</td>
                             <td>
                                 <Link to={`/seats/detail/${seat.seatId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -120,13 +120,13 @@ function SeatsPage() {
                                             to={`/seats/update/${seat.seatId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/seats/delete/${seat.seatId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

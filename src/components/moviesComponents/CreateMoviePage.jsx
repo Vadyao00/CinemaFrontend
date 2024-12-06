@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchAllGenres } from '../../services/genres';
+import { fetchAllActors } from '../../services/actors';
 import { createMovie } from '../../services/movies';
 import '../../styles/CreateMoviePage.css';
 
@@ -12,7 +13,9 @@ function CreateMoviePage() {
     const [ageRestriction, setAgeRestriction] = useState('');
     const [description, setDescription] = useState('');
     const [genreId, setGenreId] = useState('');
+    const [actorsIds, setActorsIds] = useState([]);
     const [genres, setGenres] = useState([]);
+    const [actors, setActors] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
@@ -25,8 +28,24 @@ function CreateMoviePage() {
                 console.error('Failed to fetch genres:', error);
             }
         };
+
+        const loadActors = async () => {
+            try {
+                const dataActors = await fetchAllActors();
+                setActors(dataActors);
+            } catch (error) {
+                console.error('Failed to fetch actors:', error);
+            }
+        };
+
         loadGenres();
+        loadActors();
     }, []);
+
+    const handleActorsChange = (e) => {
+        const selectedActors = Array.from(e.target.selectedOptions, (option) => option.value);
+        setActorsIds(selectedActors);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,7 +57,9 @@ function CreateMoviePage() {
             productionCompany,
             country,
             ageRestriction: ageRestriction ? parseInt(ageRestriction) : null,
-            description
+            description,
+            genreId,
+            actorsIds,
         };
 
         try {
@@ -135,6 +156,25 @@ function CreateMoviePage() {
                         {genres.map((genre) => (
                             <option key={genre.genreId} value={genre.genreId}>
                                 {genre.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="actorsIds">Актеры:</label>
+                    <select
+                        id="actorsIds"
+                        name="actorsIds"
+                        multiple
+                        value={actorsIds}
+                        onChange={handleActorsChange}
+                        className="form-control"
+                        style={{ height: '120px' }}
+                    >
+                        {actors.map((actor) => (
+                            <option key={actor.actorId} value={actor.actorId}>
+                                {actor.name}
                             </option>
                         ))}
                     </select>

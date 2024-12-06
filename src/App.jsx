@@ -425,6 +425,7 @@ function App() {
                       <button onClick={logout} className="auth-link logout-button">Выход</button>
                     </>
                   )}
+
                 </div>
               </div>
             </div>

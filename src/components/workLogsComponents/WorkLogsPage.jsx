@@ -117,7 +117,7 @@ function WorkLogsPage() {
                             <td>{log.workHours.toFixed(2)}</td>
                             <td>
                                 <Link to={`/worklogs/detail/${log.workLogId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -125,13 +125,13 @@ function WorkLogsPage() {
                                             to={`/worklogs/update/${log.workLogId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/worklogs/delete/${log.workLogId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

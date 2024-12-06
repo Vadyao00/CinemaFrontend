@@ -109,7 +109,7 @@ function EmployeesPage() {
                                     to={`/employees/detail/${employee.employeeId}`}
                                     className="action-link"
                                 >
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -117,13 +117,13 @@ function EmployeesPage() {
                                             to={`/employees/update/${employee.employeeId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/employees/delete/${employee.employeeId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

@@ -98,7 +98,7 @@ function ActorsPage() {
                             <td>{actor.movies}</td>
                             <td>
                                 <Link to={`/actors/detail/${actor.actorId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -106,13 +106,13 @@ function ActorsPage() {
                                             to={`/actors/update/${actor.actorId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/actors/delete/${actor.actorId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

@@ -18,33 +18,27 @@ axios.interceptors.request.use(
             refreshToken: refreshTokenFromStorage,
           };
 
-          // Выполняем запрос на обновление токена
           const response = await refreshToken(data);
           const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response;
 
           if (newAccessToken) {
-            // Сохраняем новые токены в локальное хранилище
             localStorage.setItem('accessToken', newAccessToken);
             localStorage.setItem('refreshToken', newRefreshToken);
 
-            // Обновляем заголовки
             config.headers['Authorization'] = `Bearer ${newAccessToken}`;
           } else {
-            // Если новые токены не пришли — удаляем старые
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             localStorage.removeItem('userName');
           }
         } catch (error) {
           console.error("Ошибка обновления токена:", error);
-          // В случае ошибки удаляем токены
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('userName');
           return Promise.reject(error);
         }
       } else {
-        // Если токен не истёк, добавляем его в заголовок
         config.headers['Authorization'] = `Bearer ${accessToken}`;
       }
     }

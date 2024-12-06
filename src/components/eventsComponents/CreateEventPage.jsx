@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createEvent } from '../../services/events';
+import { fetchAllEmployees } from '../../services/employees';
 
 function CreateEventPage() {
     const navigate = useNavigate();
+
     const [event, setEvent] = useState({
         name: '',
         date: '',
         startTime: '',
         endTime: '',
         ticketPrice: '',
+        employeesIds: [],
     });
+    const [allEmployees, setAllEmployees] = useState([]);
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const loadEmployees = async () => {
+            try {
+                const employees = await fetchAllEmployees();
+                setAllEmployees(employees);
+            } catch (error) {
+                console.error('Failed to fetch employees:', error);
+            }
+        };
+
+        loadEmployees();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,10 +38,18 @@ function CreateEventPage() {
         });
     };
 
+    const handleEmployeesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions);
+        const selectedIds = selectedOptions.map((option) => option.value);
+        setEvent((prevEvent) => ({
+            ...prevEvent,
+            employeesIds: selectedIds,
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(event);
             await createEvent(event);
             navigate('/events');
         } catch (error) {
@@ -56,9 +81,6 @@ function CreateEventPage() {
                             className="form-control"
                             style={{ width: '100%' }}
                         />
-                        {errors.name && (
-                            <span style={{ color: 'red' }}>{errors.name}</span>
-                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="date" style={{ display: 'block', fontWeight: 'bold' }}>
@@ -73,9 +95,6 @@ function CreateEventPage() {
                             className="form-control"
                             style={{ width: '100%' }}
                         />
-                        {errors.date && (
-                            <span style={{ color: 'red' }}>{errors.date}</span>
-                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="startTime" style={{ display: 'block', fontWeight: 'bold' }}>
@@ -90,9 +109,6 @@ function CreateEventPage() {
                             className="form-control"
                             style={{ width: '100%' }}
                         />
-                        {errors.startTime && (
-                            <span style={{ color: 'red' }}>{errors.startTime}</span>
-                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="endTime" style={{ display: 'block', fontWeight: 'bold' }}>
@@ -107,9 +123,6 @@ function CreateEventPage() {
                             className="form-control"
                             style={{ width: '100%' }}
                         />
-                        {errors.endTime && (
-                            <span style={{ color: 'red' }}>{errors.endTime}</span>
-                        )}
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label htmlFor="ticketPrice" style={{ display: 'block', fontWeight: 'bold' }}>
@@ -125,9 +138,26 @@ function CreateEventPage() {
                             style={{ width: '100%' }}
                             step="0.01"
                         />
-                        {errors.ticketPrice && (
-                            <span style={{ color: 'red' }}>{errors.ticketPrice}</span>
-                        )}
+                    </div>
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="employees" style={{ display: 'block', fontWeight: 'bold' }}>
+                            Связанные сотрудники
+                        </label>
+                        <select
+                            id="employees"
+                            name="employees"
+                            multiple
+                            value={event.employeesIds}
+                            onChange={handleEmployeesChange}
+                            className="form-control"
+                            style={{ width: '100%', height: '120px' }}
+                        >
+                            {allEmployees.map((employee) => (
+                                <option key={employee.employeeId} value={employee.employeeId}>
+                                    {employee.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div style={{ marginTop: '16px' }}>
                         <button

@@ -121,7 +121,7 @@ function MoviesPage() {
                             <td>{movie.actors || '-'}</td>
                             <td>
                                 <Link to={`/movies/detail/${movie.movieId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -129,13 +129,13 @@ function MoviesPage() {
                                             to={`/movies/update/${movie.movieId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/movies/delete/${movie.movieId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}

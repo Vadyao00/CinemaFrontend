@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createActor } from '../../services/actors';
+import { fetchAllMovies } from '../../services/movies';
 
 function CreateActorPage() {
     const navigate = useNavigate();
     const [actor, setActor] = useState({
         name: '',
+        moviesIds: [], // Добавлено поле для фильмов
     });
+    const [movies, setMovies] = useState([]);
     const [errors, setErrors] = useState({});
+
+    // Загрузка фильмов при монтировании
+    useEffect(() => {
+        const loadMovies = async () => {
+            try {
+                const moviesData = await fetchAllMovies();
+                setMovies(moviesData);
+            } catch (error) {
+                console.error('Failed to fetch movies:', error);
+            }
+        };
+        loadMovies();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setActor({
-            ...actor,
-            [name]: value,
-        });
+        if (name === 'moviesIds') {
+            const selectedMovies = Array.from(e.target.selectedOptions, option => option.value);
+            setActor((prevActor) => ({
+                ...prevActor,
+                [name]: selectedMovies,
+            }));
+        } else {
+            setActor({
+                ...actor,
+                [name]: value,
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -54,6 +78,33 @@ function CreateActorPage() {
                         {errors.name && (
                             <span style={{ color: 'red' }}>{errors.name}</span>
                         )}
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="moviesIds" style={{ display: 'block', marginBottom: '8px' }}>
+                            Выберите фильмы
+                        </label>
+                        <select
+                            id="moviesIds"
+                            name="moviesIds"
+                            multiple
+                            value={actor.moviesIds}
+                            onChange={handleChange}
+                            className="form-control"
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                boxSizing: 'border-box',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                            }}
+                        >
+                            {movies.map((movie) => (
+                                <option key={movie.movieId} value={movie.movieId}>
+                                    {movie.title}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div style={{ marginTop: '16px' }}>

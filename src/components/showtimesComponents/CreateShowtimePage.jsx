@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchAllMovies } from '../../services/movies';
+import { fetchAllEmployees } from '../../services/employees';
 import { createShowtime } from '../../services/showtimes';
 import '../../styles/CreateShowtimePage.css';
 
@@ -10,20 +11,26 @@ function CreateShowtimePage() {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [ticketPrice, setTicketPrice] = useState('');
+    const [employeesIds, setEmployeesIds] = useState([]);
     const [movies, setMovies] = useState([]);
+    const [employees, setEmployees] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const loadMovies = async () => {
+        const loadMoviesAndEmployees = async () => {
             try {
-                const dataMovies = await fetchAllMovies();
+                const [dataMovies, dataEmployees] = await Promise.all([
+                    fetchAllMovies(),
+                    fetchAllEmployees(),
+                ]);
                 setMovies(dataMovies);
+                setEmployees(dataEmployees);
             } catch (error) {
-                console.error('Failed to fetch movies:', error);
+                console.error('Failed to fetch data:', error);
             }
         };
-        loadMovies();
+        loadMoviesAndEmployees();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -35,6 +42,7 @@ function CreateShowtimePage() {
             startTime,
             endTime,
             ticketPrice: ticketPrice && parseFloat(ticketPrice),
+            employeesIds,
         };
 
         try {
@@ -45,6 +53,12 @@ function CreateShowtimePage() {
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const handleEmployeesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions);
+        const selectedIds = selectedOptions.map((option) => option.value);
+        setEmployeesIds(selectedIds);
     };
 
     return (
@@ -64,6 +78,24 @@ function CreateShowtimePage() {
                         {movies.map((movie) => (
                             <option key={movie.movieId} value={movie.movieId}>
                                 {movie.title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="employees">Сотрудники:</label>
+                    <select
+                        id="employees"
+                        multiple
+                        value={employeesIds}
+                        onChange={handleEmployeesChange}
+                        className="form-control"
+                        style={{ height: '120px' }}
+                    >
+                        {employees.map((employee) => (
+                            <option key={employee.employeeId} value={employee.employeeId}>
+                                {employee.name}
                             </option>
                         ))}
                     </select>

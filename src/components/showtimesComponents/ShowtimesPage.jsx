@@ -142,7 +142,7 @@ function ShowtimesPage() {
                             <td>{showtime.employees || '-'}</td>
                             <td>
                                 <Link to={`/showtimes/detail/${showtime.showtimeId}`} className="action-link">
-                                    Details
+                                    Детально
                                 </Link>
                                 {isAdmin && (
                                     <>
@@ -150,13 +150,13 @@ function ShowtimesPage() {
                                             to={`/showtimes/update/${showtime.showtimeId}`}
                                             className="action-link"
                                         >
-                                            Edit
+                                            Изменить
                                         </Link>
                                         <Link
                                             to={`/showtimes/delete/${showtime.showtimeId}`}
                                             className="action-link delete"
                                         >
-                                            Delete
+                                            Удалить
                                         </Link>
                                     </>
                                 )}
